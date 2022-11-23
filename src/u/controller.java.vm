@@ -1,0 +1,100 @@
+##定义初始变量
+#set($tableName = $tool.append($tableInfo.name, "Controller"))
+##设置回调
+$!callback.setFileName($tool.append($tableName, ".java"))
+$!callback.setSavePath($tool.append($tableInfo.savePath, "/mvc/controller"))
+##拿到主键
+#if(!$tableInfo.pkColumn.isEmpty())
+    #set($pk = $tableInfo.pkColumn.get(0))
+#end
+
+#if($tableInfo.savePackageName)package $!{tableInfo.savePackageName}.#{end}mvc.controller;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import lombok.extern.slf4j.Slf4j;
+import $!{tableInfo.savePackageName}.mvc.domain.$!{tableInfo.name};
+import $!{tableInfo.savePackageName}.mvc.service.$!{tableInfo.name}Service;
+import $!{tableInfo.savePackageName}.util.R;
+import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.Resource;
+
+/**
+ * $!{tableInfo.comment}($!{tableInfo.name})表控制层
+ *
+ * @author $!author
+ * @since $!time.currTime()
+ */
+@Slf4j
+@RestController
+@RequestMapping("$!tool.firstLowerCase($tableInfo.name)")
+@Api(tags = "$!{tableInfo.comment}($!{tableInfo.name})表控制层")
+public class $!{tableName} {
+/**
+ * 服务对象
+ */
+@Resource
+private $!{tableInfo.name}Service $!tool.firstLowerCase($tableInfo.name)Service;
+
+/**
+ * 全查询
+ *
+ * @param $!{tool.firstLowerCase($tableInfo.name)} 筛选条件
+ * @return 查询结果
+ */
+@ApiOperation("全查询")
+@GetMapping
+public R queryAll(@ApiParam(value = "$!{tool.firstLowerCase($tableInfo.name)} 筛选条件") $!{tableInfo.name} $!{tool.firstLowerCase($tableInfo.name)}) {
+        return this.$!{tool.firstLowerCase($tableInfo.name)}Service.queryAll($!{tool.firstLowerCase($tableInfo.name)});
+        }
+
+/**
+ * 通过主键查询单条数据
+ *
+ * @param id 主键
+ * @return 单条数据
+ */
+@ApiOperation("通过主键查询单条数据")
+@GetMapping("{id}")
+public R queryById(@ApiParam(value = "id 主键") @PathVariable("id") $!pk.shortType id) {
+        return this.$!{tool.firstLowerCase($tableInfo.name)}Service.queryById(id);
+        }
+
+/**
+ * 新增数据
+ *
+ * @param $!{tool.firstLowerCase($tableInfo.name)} 实体
+ * @return 新增结果
+ */
+@ApiOperation("新增数据")
+@PostMapping
+public R add(@ApiParam(value = "$!{tool.firstLowerCase($tableInfo.name)} 实体") @RequestBody $!{tableInfo.name} $!{tool.firstLowerCase($tableInfo.name)}) {
+        return this.$!{tool.firstLowerCase($tableInfo.name)}Service.insert($!{tool.firstLowerCase($tableInfo.name)});
+        }
+
+/**
+ * 编辑数据
+ *
+ * @param $!{tool.firstLowerCase($tableInfo.name)} 实体
+ * @return 编辑结果
+ */
+@ApiOperation("编辑数据")
+@PutMapping
+public R edit(@ApiParam(value = "$!{tool.firstLowerCase($tableInfo.name)} 实体") @RequestBody $!{tableInfo.name} $!{tool.firstLowerCase($tableInfo.name)}) {
+        return this.$!{tool.firstLowerCase($tableInfo.name)}Service.update($!{tool.firstLowerCase($tableInfo.name)});
+        }
+
+/**
+ * 删除数据
+ *
+ * @param id 主键
+ * @return 删除是否成功
+ */
+@ApiOperation("删除数据")
+@DeleteMapping
+public R deleteById(@ApiParam(value = "id 主键") $!pk.shortType id) {
+        return this.$!{tool.firstLowerCase($tableInfo.name)}Service.deleteById(id);
+        }
+
+        }

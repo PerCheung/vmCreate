@@ -1,0 +1,32 @@
+##引入宏定义
+$!{define.vm}
+
+##使用宏定义设置回调（保存位置与文件后缀）
+#save("/mvc/domain", ".java")
+
+#if($tableInfo.savePackageName)package $!{tableInfo.savePackageName}.#{end}mvc.domain;
+
+import lombok.extern.slf4j.Slf4j;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
+
+##使用宏定义实现类注释信息
+#tableComment("实体类")
+@Slf4j
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@ApiModel("$!{tableInfo.comment}($!{tableInfo.name})实体类")
+public class $!{tableInfo.name} implements Serializable {
+private static final long serialVersionUID = $!tool.serial();
+#foreach($column in $tableInfo.fullColumn)
+#if(${column.comment})/**${column.comment}*/#end
+@ApiModelProperty(value = "#if(${column.comment})${column.comment}#end")
+private $!{tool.getClsNameByFullName($column.type)} $!{column.name};
+#end
+}

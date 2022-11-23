@@ -1,0 +1,46 @@
+##设置回调
+$!callback.setFileName($tool.append("application-test.yaml"))
+$!callback.setSavePath($tool.append($modulePath, "/src/main/resources"))
+server:
+  port: 8080
+
+swagger:
+  enabled: true
+
+spring:
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      # 下面为连接池的补充设置，应用到上面所有数据源中
+      # 初始化大小，最小，最大
+      initial-size: 15
+      min-idle: 8
+      max-active: 30
+      # 配置获取连接等待超时的时间
+      max-wait: 60000
+      # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+      time-between-eviction-runs-millis: 60000
+      # 配置一个连接在池中最小生存的时间，单位是毫秒
+      min-evictable-idle-time-millis: 300000
+      # 打开PSCache，并且指定每个连接上PSCache的大小
+      pool-prepared-statements: true
+      max-pool-prepared-statement-per-connection-size: 60
+      validation-query: SELECT 1 FROM DUAL
+      url: jdbc:mysql://192.168.16.7:3306/newgeo
+      username: root
+      password: root
+      driver-class-name: com.mysql.cj.jdbc.Driver
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+    # call-setters-on-nulls 参数的作用是查询的某一行某一列为null，是否返回
+    call-setters-on-nulls: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
