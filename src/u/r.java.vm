@@ -58,7 +58,7 @@ public class R implements Serializable {
      */
     public static R fail() {
         R r = new R();
-        r.code = 401;
+        r.code = 1401;
         r.message = "fail";
         return r;
     }
@@ -70,7 +70,7 @@ public class R implements Serializable {
      */
     public static R exp() {
         R r = new R();
-        r.code = 500;
+        r.code = 1500;
         r.message = "exception";
         return r;
     }

@@ -4,8 +4,8 @@ $!callback.setSavePath($tool.append($modulePath, "/src/main/resources"))
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
     <contextName>logback</contextName>
-    <!--定义日志文件的存储地址 只可以配置绝对路径 配置相对路径在项目执行时可以起作用 但打成jar包后会失效-->
-    <property name="LOG_HOME" value="$modulePath/tmp/logs" />
+    <!--定义日志文件的存储地址-->
+    <property name="LOG_HOME" value="logs" />
 
     <appender name="console"  class="ch.qos.logback.core.ConsoleAppender">
         <encoder>

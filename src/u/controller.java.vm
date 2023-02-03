@@ -28,7 +28,7 @@ import javax.annotation.Resource;
  */
 @Slf4j
 @RestController
-@RequestMapping("newgeo/$!tool.firstLowerCase($tableInfo.name)")
+@RequestMapping("$!tool.firstLowerCase($tableInfo.name)")
 @Api(tags = "$!{tableInfo.comment}($!{tableInfo.name})表控制层")
 public class $!{tableName} {
 /**
