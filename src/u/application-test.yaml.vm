@@ -32,7 +32,7 @@ spring:
       pool-prepared-statements: true
       max-pool-prepared-statement-per-connection-size: 60
       validation-query: SELECT 1 FROM DUAL
-      url: jdbc:mysql://192.168.16.7:3306/newgeo
+      url: jdbc:mysql://localhost:3306/study_space
       username: root
       password: root
       driver-class-name: com.mysql.cj.jdbc.Driver
