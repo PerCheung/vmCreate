@@ -26,7 +26,7 @@ import javax.annotation.Resource;
  * @since $!time.currTime()
  */
 @Slf4j
-@Service("$!tool.firstLowerCase($!{tableInfo.name})Service")
+@Service
 public class $!{tableName} implements $!{tableInfo.name}Service {
 @Resource
 private $!{tableInfo.name}Mapper $!tool.firstLowerCase($!{tableInfo.name})Mapper;
@@ -74,7 +74,7 @@ public R insert($!{tableInfo.name} $!tool.firstLowerCase($!{tableInfo.name})) {
 @Override
 public R update($!{tableInfo.name} $!tool.firstLowerCase($!{tableInfo.name})) {
         this.$!{tool.firstLowerCase($!{tableInfo.name})}Mapper.update($!tool.firstLowerCase($!{tableInfo.name}));
-        return R.ok().setData(this.queryById($!{tool.firstLowerCase($!{tableInfo.name})}.get$!tool.firstUpperCase($pk.name)()));
+        return R.ok().setData(this.$!{tool.firstLowerCase($!{tableInfo.name})}Mapper.queryById($!{tool.firstLowerCase($!{tableInfo.name})}.get$!tool.firstUpperCase($pk.name)()));
         }
 
 /**
