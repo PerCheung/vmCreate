@@ -39,3 +39,15 @@ mybatis:
   configuration:
     # call-setters-on-nulls 参数的作用是查询的某一行某一列为null，是否返回
     call-setters-on-nulls: true
+
+pagehelper:
+  # 默认值false，当值为true时，pageSize=0或者RowBounds.limit=0查询全部结果（相当于没有执行分页查询，但是返回结果仍然是Page类型）
+  page-size-zero: true
+  # 指定数据库，可以不配置，pagehelper插件会自动检测数据库的类型
+  helperDialect: mysql
+  # 分页合理化参数默认false，当该参数设置为true 时，pageNum <= 0 时，默认显示第一页，pageNum 超过 pageSize 时，显示最后一页
+  reasonable: true
+  # 分页插件会根据查询方法的参数中，自动根据params配置的字段中取值，找到合适的值会自动分页
+  supportMethodsArguments: true
+  # 为了支持 startPage(Object params) 方法，增加了该参数来配置参数映射，用于从对象中根据属性名取值，可以配置 pageNum,pageSize,count,pageSizeZero,reasonable，不配置映射的用默认值
+  params: count=countSql

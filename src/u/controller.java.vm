@@ -62,6 +62,20 @@ public R queryById(@ApiParam(value = "id 主键") @PathVariable("id") $!pk.short
         }
 
 /**
+ * 分页查询
+ *
+ * @param pageNum 页数
+ * @param pageSize 每页数量
+ * @param $!{tool.firstLowerCase($tableInfo.name)} 筛选条件
+ * @return 查询结果
+ */
+@ApiOperation("分页查询")
+@PostMapping("page")
+public R page(@ApiParam(value = "页数，不传默认是第一页") @RequestParam(defaultValue = "1") int pageNum, @ApiParam(value = "每页数量，不传默认是10个") @RequestParam(defaultValue = "10") int pageSize, @ApiParam(value = "$!{tool.firstLowerCase($tableInfo.name)} 筛选条件") @RequestBody $!{tableInfo.name} $!{tool.firstLowerCase($tableInfo.name)}) {
+        return this.$!{tool.firstLowerCase($tableInfo.name)}Service.page(pageNum, pageSize,$!{tool.firstLowerCase($tableInfo.name)});
+        }
+
+/**
  * 新增数据
  *
  * @param $!{tool.firstLowerCase($tableInfo.name)} 实体
