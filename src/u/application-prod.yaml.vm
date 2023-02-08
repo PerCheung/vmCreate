@@ -29,7 +29,7 @@ spring:
       pool-prepared-statements: true
       max-pool-prepared-statement-per-connection-size: 60
       validation-query: SELECT 1 FROM DUAL
-      url: jdbc:mysql://localhost:3306/study_space
+      url: jdbc:mysql://localhost:3306/study_space?characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
       username: root
       password: root
       driver-class-name: com.mysql.cj.jdbc.Driver
