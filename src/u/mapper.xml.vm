@@ -44,17 +44,21 @@
             </where>
             <if test="orderByMe != null and orderByMe != '' and orderByMeSort != null and orderByMeSort != ''">
                 order by
-                #foreach($column in $tableInfo.fullColumn)
-                    <if test="orderByMe == '$!column.name' and orderByMeSort == '0'">
-                        $!column.obj.name
-                    </if>
-                #end
-                #foreach($column in $tableInfo.fullColumn)
-                    <if test="orderByMe == '$!column.name' and orderByMeSort == '1'">
-                        $!column.obj.name desc
-                    </if>
-                #end
-                1
+                <choose>
+                    #foreach($column in $tableInfo.fullColumn)
+                        <when test="orderByMe == '$!column.name' and orderByMeSort == 'ASC'">
+                            $!column.obj.name
+                        </when>
+                    #end
+                    #foreach($column in $tableInfo.fullColumn)
+                        <when test="orderByMe == '$!column.name' and orderByMeSort == 'DESC'">
+                            $!column.obj.name desc
+                        </when>
+                    #end
+                    <otherwise>
+                        1
+                    </otherwise>
+                </choose>
             </if>
         </select>
 
@@ -73,17 +77,21 @@
             </where>
             <if test="orderByMe != null and orderByMe != '' and orderByMeSort != null and orderByMeSort != ''">
                 order by
-                #foreach($column in $tableInfo.fullColumn)
-                    <if test="orderByMe == '$!column.name' and orderByMeSort == '0'">
-                        $!column.obj.name
-                    </if>
-                #end
-                #foreach($column in $tableInfo.fullColumn)
-                    <if test="orderByMe == '$!column.name' and orderByMeSort == '1'">
-                        $!column.obj.name desc
-                    </if>
-                #end
-                1
+                <choose>
+                    #foreach($column in $tableInfo.fullColumn)
+                        <when test="orderByMe == '$!column.name' and orderByMeSort == 'ASC'">
+                            $!column.obj.name
+                        </when>
+                    #end
+                    #foreach($column in $tableInfo.fullColumn)
+                        <when test="orderByMe == '$!column.name' and orderByMeSort == 'DESC'">
+                            $!column.obj.name desc
+                        </when>
+                    #end
+                    <otherwise>
+                        1
+                    </otherwise>
+                </choose>
             </if>
         </select>
 
