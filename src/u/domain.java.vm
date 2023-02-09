@@ -23,15 +23,23 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @ApiModel("$!{tableInfo.comment}($!{tableInfo.name})实体类")
-public class $!{tableInfo.name} implements Serializable {
-private static final long serialVersionUID = $!tool.serial();
+public class $!{tableInfo.name} implements Serializable{
+private static final long serialVersionUID= $!tool.serial();
 #foreach($column in $tableInfo.fullColumn)
-#if(${column.comment})/**${column.comment}*/#end
+    #if(${column.comment})/**${column.comment}*/#end
 @ApiModelProperty(value = "#if(${column.comment})${column.comment}#end")
 private $!{tool.getClsNameByFullName($column.type)} $!{column.name};
 #end
+/**用此变量排序*/
 @ApiModelProperty(value = "用此变量排序")
 private String orderByMe;
+/**
+     * 升降序
+     * <p>
+     * ASC：表示按升序排序
+     * <p>
+     * DESC：表示按降序排序
+     */
 @ApiModelProperty(value = "升降序 ASC：表示按升序排序 DESC：表示按降序排序")
 private String orderByMeSort;
-}
+        }
