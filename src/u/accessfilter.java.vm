@@ -1,8 +1,8 @@
 ##设置回调
 $!callback.setFileName($tool.append("AccessFilter.java"))
-$!callback.setSavePath($tool.append($tableInfo.savePath, "/config"))
+$!callback.setSavePath($tool.append($tableInfo.savePath, "/config/filter"))
 
-#if($tableInfo.savePackageName)package $!{tableInfo.savePackageName}.#{end}config;
+#if($tableInfo.savePackageName)package $!{tableInfo.savePackageName}.#{end}config.filter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;

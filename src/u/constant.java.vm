@@ -1,0 +1,25 @@
+##设置回调
+$!callback.setFileName($tool.append("Constant.java"))
+$!callback.setSavePath($tool.append($tableInfo.savePath, "/config/constant"))
+
+#if($tableInfo.savePackageName)package $!{tableInfo.savePackageName}.#{end}config.constant;
+
+
+/**
+ * 常量
+ *
+ * @author $!author
+ * @since $!time.currTime()
+ */
+public interface Constant {
+    /**
+     * 全局异常包路径
+     */
+    String PACKAGE_NAME = "#if($tableInfo.savePackageName)$!{tableInfo.savePackageName}#{end}";
+
+    /**
+     * swagger扫描包
+     */
+    String SWAGGER_PACKAGE = "#if($tableInfo.savePackageName)$!{tableInfo.savePackageName}.#{end}mvc.controller";
+
+}

@@ -1,0 +1,47 @@
+##设置回调
+$!callback.setFileName($tool.append("AllExceptionHandle.java"))
+$!callback.setSavePath($tool.append($tableInfo.savePath, "/config/exception"))
+
+#if($tableInfo.savePackageName)package $!{tableInfo.savePackageName}.#{end}config.exception;
+
+import #if($tableInfo.savePackageName)$!{tableInfo.savePackageName}.#{end}util.R;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import static #if($tableInfo.savePackageName)$!{tableInfo.savePackageName}.#{end}config.constant.Constant.PACKAGE_NAME;
+
+/**
+ * 全局异常统一处理
+ *
+ * @author $!author
+ * @since $!time.currTime()
+ */
+@Slf4j
+@ControllerAdvice
+@ResponseBody
+public class AllExceptionHandle {
+    @ExceptionHandler(Exception.class)
+    public R exception(Exception e) {
+        //错误信息打印
+        log.error(e.toString());
+        //返回错误信息
+        StringBuilder errorMessage = new StringBuilder();
+        String error = StringUtils.isNotBlank(e.getMessage()) ? e.getMessage() : e.toString();
+        errorMessage.append(error);
+        StackTraceElement[] stackTrace = e.getStackTrace();
+        for (StackTraceElement stackTraceElement : stackTrace) {
+            String className = stackTraceElement.getClassName();
+            if (className.startsWith(PACKAGE_NAME)) {
+                String errorName = ";" + stackTraceElement.getClassName();
+                errorMessage.append(errorName);
+                String errorLineNumber = ":" + stackTraceElement.getLineNumber();
+                errorMessage.append(errorLineNumber);
+                return R.exp().setData(errorMessage);
+            }
+        }
+        return R.exp().setData(errorMessage);
+    }
+}

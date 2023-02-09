@@ -40,7 +40,7 @@ public class R implements Serializable {
     }
 
     /**
-     * 操作成功
+     * 成功
      *
      * @return R
      */
@@ -52,26 +52,41 @@ public class R implements Serializable {
     }
 
     /**
-     * 认证授权失败。 包括密钥信息不正确；数字签名错误；授权已超时
+     * 认证授权失败 Unauthorized
+     * 请求要求用户的身份认证
      *
      * @return R
      */
-    public static R fail() {
+    public static R unauthorized() {
         R r = new R();
         r.code = 1401;
-        r.message = "fail";
+        r.message = "unauthorized";
         return r;
     }
 
     /**
-     * 系统异常
+     * Forbidden
+     * 服务器理解请求客户端的请求，但是拒绝执行此请求
+     *
+     * @return R
+     */
+    public static R forbidden() {
+        R r = new R();
+        r.code = 1403;
+        r.message = "Forbidden";
+        return r;
+    }
+
+    /**
+     * Internal Server Error
+     * 服务器内部错误，无法完成请求
      *
      * @return R
      */
     public static R exp() {
         R r = new R();
         r.code = 1500;
-        r.message = "exception";
+        r.message = "Internal Server Error";
         return r;
     }
 }
