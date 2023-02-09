@@ -30,4 +30,8 @@ private static final long serialVersionUID = $!tool.serial();
 @ApiModelProperty(value = "#if(${column.comment})${column.comment}#end")
 private $!{tool.getClsNameByFullName($column.type)} $!{column.name};
 #end
+@ApiModelProperty(value = "用此变量排序")
+private String orderByMe;
+@ApiModelProperty(value = "升降序 若要ASC传0：表示按升序排序 若要DESC传1：表示按降序排序")
+private String orderByMeSort;
 }
