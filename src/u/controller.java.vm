@@ -107,7 +107,7 @@ public R edit(@ApiParam(value = "$!{tool.firstLowerCase($tableInfo.name)} 实体
  */
 @ApiOperation("删除数据")
 @DeleteMapping
-public R deleteById(@ApiParam(value = "id 主键") $!pk.shortType id) {
+public R deleteById(@ApiParam(value = "id 主键") @RequestParam $!pk.shortType id) {
         return this.$!{tool.firstLowerCase($tableInfo.name)}Service.deleteById(id);
         }
 
