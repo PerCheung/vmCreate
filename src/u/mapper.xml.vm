@@ -33,12 +33,25 @@ $!callback.setSavePath($tool.append($modulePath, "/src/main/resources/mapper"))
     <select id="queryAll" resultMap="$!{tableInfo.name}Map">
         select
           #allSqlColumn()
-
         from $!tableInfo.obj.name
         <where>
 #foreach($column in $tableInfo.fullColumn)
             <if test="$!column.name != null#if($column.type.equals("java.lang.String")) and $!column.name != ''#end">
                 and $!column.obj.name = #{$!column.name}
+            </if>
+#end
+        </where>
+    </select>
+
+    <!--模糊查询指定行数据-->
+    <select id="queryAllLike" resultMap="$!{tableInfo.name}Map">
+        select
+        #allSqlColumn()
+        from $!tableInfo.obj.name
+        <where>
+#foreach($column in $tableInfo.fullColumn)
+            <if test="$!column.name != null#if($column.type.equals("java.lang.String")) and $!column.name != ''#end">
+                and $!column.obj.name like concat('%',#{$!column.name},'%')
             </if>
 #end
         </where>

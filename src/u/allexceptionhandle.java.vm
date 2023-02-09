@@ -25,8 +25,14 @@ import static #if($tableInfo.savePackageName)$!{tableInfo.savePackageName}.#{end
 public class AllExceptionHandle {
     @ExceptionHandler(Exception.class)
     public R exception(Exception e) {
+        //控制台颜色 91-亮红 1-字体加粗
+        System.out.println("\033[91;1m错误信息如下：");
         //错误信息打印
         log.error(e.toString());
+        //控制台清除状态
+        System.out.print("\033[0m");
+        //控制台颜色还原 93-亮黄
+        System.out.print("\033[93m");
         //返回错误信息
         StringBuilder errorMessage = new StringBuilder();
         String error = StringUtils.isNotBlank(e.getMessage()) ? e.getMessage() : e.toString();

@@ -39,6 +39,14 @@ public interface $!{tableName} {
         R queryAll($!{tableInfo.name} $!tool.firstLowerCase($!{tableInfo.name}));
 
         /**
+         * 模糊全查询
+         *
+         * @param $!tool.firstLowerCase($!{tableInfo.name}) 筛选条件
+         * @return 查询结果
+         */
+        R queryAllLike($!{tableInfo.name} $!tool.firstLowerCase($!{tableInfo.name}));
+
+        /**
          * 分页查询
          *
          * @param pageNum 页数
@@ -47,6 +55,16 @@ public interface $!{tableName} {
          * @return 查询结果
          */
         R page(int pageNum, int pageSize, $!{tableInfo.name} $!tool.firstLowerCase($!{tableInfo.name}));
+
+        /**
+         * 分页模糊查询
+         *
+         * @param pageNum  页数
+         * @param pageSize 每页数量
+         * @param $!{tool.firstLowerCase($tableInfo.name)} 筛选条件
+         * @return 查询结果
+         */
+        R pageLike(int pageNum, int pageSize, $!{tableInfo.name} $!tool.firstLowerCase($!{tableInfo.name}));
 
         /**
          * 新增数据

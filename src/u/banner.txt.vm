@@ -7,4 +7,6 @@ ${AnsiColor.BRIGHT_YELLOW} _____) )___  ____| /     | | _   ____ _   _ ____   __
 ${AnsiColor.BRIGHT_GREEN}|  ____/ _  )/ ___) |     | || \ / _  ) | | |  _ \ / _  |
 ${AnsiColor.BRIGHT_CYAN}| |   ( (/ /| |   | \_____| | | ( (/ /| |_| | | | ( ( | |
 ${AnsiColor.BRIGHT_MAGENTA}|_|    \____)_|    \______)_| |_|\____)\____|_| |_|\_|| |
-${AnsiColor.BRIGHT_MAGENTA}                                                  (_____|${AnsiColor.BRIGHT_YELLOW}
+${AnsiColor.BRIGHT_MAGENTA}                                                  (_____|
+Spring Boot Version: ${spring-boot.version}
+${AnsiColor.BRIGHT_YELLOW}

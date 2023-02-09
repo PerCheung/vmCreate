@@ -32,7 +32,13 @@ spring:
       pool-prepared-statements: true
       max-pool-prepared-statement-per-connection-size: 60
       validation-query: SELECT 1 FROM DUAL
-      url: jdbc:mysql://localhost:3306/study_space?characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+      # useUnicode是否使用Unicode字符集
+      # characterEncoding 当useUnicode设置为true时，指定字符编码
+      # serverTimezone 时区
+      # allowMultiQueries 是否允许执行多行sql
+      # connectTimeout 和数据库服务器建立socket连接时的超时，单位：毫秒, 0表示永不超时
+      # socketTimeout 操作（读写）超时，单位：毫秒,0表示永不超时
+      url: jdbc:mysql://localhost:3306/study_space?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&allowMultiQueries=true&connectTimeout=60000&socketTimeout=60000
       username: root
       password: root
       driver-class-name: com.mysql.cj.jdbc.Driver

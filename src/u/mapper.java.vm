@@ -32,7 +32,7 @@ public interface $!{tableName} {
          * @param $!pk.name 主键
          * @return 实例对象
          */
-    $!{tableInfo.name} queryById($!pk.shortType $!pk.name);
+        $!{tableInfo.name} queryById($!pk.shortType $!pk.name);
 
         /**
          * 查询指定行数据
@@ -41,6 +41,14 @@ public interface $!{tableName} {
          * @return 对象列表
          */
         List<$!{tableInfo.name}> queryAll($!{tableInfo.name} $!tool.firstLowerCase($!{tableInfo.name}));
+
+        /**
+         * 模糊查询指定行数据
+         *
+         * @param $!tool.firstLowerCase($!{tableInfo.name}) 查询条件
+         * @return 对象列表
+         */
+        List<$!{tableInfo.name}> queryAllLike($!{tableInfo.name} $!tool.firstLowerCase($!{tableInfo.name}));
 
         /**
          * 统计总行数

@@ -50,6 +50,18 @@ public R queryAll(@ApiParam(value = "$!{tool.firstLowerCase($tableInfo.name)} �
         }
 
 /**
+ * 模糊全查询
+ *
+ * @param $!{tool.firstLowerCase($tableInfo.name)} 筛选条件
+ * @return 查询结果
+ */
+@ApiOperation("模糊全查询")
+@PostMapping("like")
+public R queryAllLike(@ApiParam(value = "$!{tool.firstLowerCase($tableInfo.name)} 筛选条件") $!{tableInfo.name} $!{tool.firstLowerCase($tableInfo.name)}) {
+        return this.$!{tool.firstLowerCase($tableInfo.name)}Service.queryAllLike($!{tool.firstLowerCase($tableInfo.name)});
+        }
+
+/**
  * 通过主键查询单条数据
  *
  * @param id 主键
@@ -73,6 +85,20 @@ public R queryById(@ApiParam(value = "id 主键") @PathVariable("id") $!pk.short
 @PostMapping("page")
 public R page(@ApiParam(value = "页数，不传默认是第一页") @RequestParam(defaultValue = "1") int pageNum, @ApiParam(value = "每页数量，不传默认是10个") @RequestParam(defaultValue = "10") int pageSize, @ApiParam(value = "$!{tool.firstLowerCase($tableInfo.name)} 筛选条件") @RequestBody $!{tableInfo.name} $!{tool.firstLowerCase($tableInfo.name)}) {
         return this.$!{tool.firstLowerCase($tableInfo.name)}Service.page(pageNum, pageSize,$!{tool.firstLowerCase($tableInfo.name)});
+        }
+
+/**
+ * 分页模糊查询
+ *
+ * @param pageNum  页数
+ * @param pageSize 每页数量
+ * @param $!{tool.firstLowerCase($tableInfo.name)} 筛选条件
+ * @return 查询结果
+ */
+@ApiOperation("分页模糊查询")
+@PostMapping("page/like")
+public R pageLike(@ApiParam(value = "页数，不传默认是第一页") @RequestParam(defaultValue = "1") int pageNum, @ApiParam(value = "每页数量，不传默认是10个") @RequestParam(defaultValue = "10") int pageSize, @ApiParam(value = "$!{tool.firstLowerCase($tableInfo.name)} 筛选条件") @RequestBody $!{tableInfo.name} $!{tool.firstLowerCase($tableInfo.name)}) {
+        return this.$!{tool.firstLowerCase($tableInfo.name)}Service.pageLike(pageNum, pageSize,$!{tool.firstLowerCase($tableInfo.name)});
         }
 
 /**
