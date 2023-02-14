@@ -1,0 +1,24 @@
+##设置回调
+$!callback.setFileName($tool.append("MD5Util.java"))
+$!callback.setSavePath($tool.append($tableInfo.savePath, "/util"))
+
+#if($tableInfo.savePackageName)package $!{tableInfo.savePackageName}.#{end}util;
+import org.springframework.util.DigestUtils;
+
+import static #if($tableInfo.savePackageName)$!{tableInfo.savePackageName}.#{end}config.constant.Constant.MD5_SALT;
+
+/**
+ * MD5工具类
+ *
+ * @author $!author
+ * @since $!time.currTime()
+ */
+public class MD5Util {
+    /**
+     * 生成md5
+     */
+    public static String toMD5(String str) {
+        String base = str + MD5_SALT;
+        return DigestUtils.md5DigestAsHex(base.getBytes());
+    }
+}
