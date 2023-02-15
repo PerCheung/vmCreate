@@ -45,9 +45,9 @@ public class AllExceptionHandle {
                 errorMessage.append(errorName);
                 String errorLineNumber = ":" + stackTraceElement.getLineNumber();
                 errorMessage.append(errorLineNumber);
-                return R.exp().setData(errorMessage);
+                return R.exp().data(errorMessage);
             }
         }
-        return R.exp().setData(errorMessage);
+        return R.exp().data(errorMessage);
     }
 }

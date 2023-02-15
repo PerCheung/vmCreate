@@ -41,7 +41,7 @@ private $!{tableInfo.name}Mapper $!tool.firstLowerCase($!{tableInfo.name})Mapper
  */
 @Override
 public R queryById($!pk.shortType $!pk.name) {
-        return R.ok().setData(this.$!{tool.firstLowerCase($!{tableInfo.name})}Mapper.queryById($!pk.name));
+        return R.ok().data(this.$!{tool.firstLowerCase($!{tableInfo.name})}Mapper.queryById($!pk.name));
         }
 
 /**
@@ -52,7 +52,7 @@ public R queryById($!pk.shortType $!pk.name) {
  */
 @Override
 public R queryAll($!{tableInfo.name} $!{tool.firstLowerCase($tableInfo.name)}) {
-        return R.ok().setData(this.$!{tool.firstLowerCase($tableInfo.name)}Mapper.queryAll($!{tool.firstLowerCase($tableInfo.name)}));
+        return R.ok().data(this.$!{tool.firstLowerCase($tableInfo.name)}Mapper.queryAll($!{tool.firstLowerCase($tableInfo.name)}));
         }
 
 /**
@@ -63,7 +63,7 @@ public R queryAll($!{tableInfo.name} $!{tool.firstLowerCase($tableInfo.name)}) {
  */
 @Override
 public R queryAllLike($!{tableInfo.name} $!{tool.firstLowerCase($tableInfo.name)}) {
-        return R.ok().setData(this.$!{tool.firstLowerCase($tableInfo.name)}Mapper.queryAllLike($!{tool.firstLowerCase($tableInfo.name)}));
+        return R.ok().data(this.$!{tool.firstLowerCase($tableInfo.name)}Mapper.queryAllLike($!{tool.firstLowerCase($tableInfo.name)}));
         }
 
 /**
@@ -76,7 +76,7 @@ public R queryAllLike($!{tableInfo.name} $!{tool.firstLowerCase($tableInfo.name)
  */
 @Override
 public R page(int pageNum, int pageSize, $!{tableInfo.name} $!{tool.firstLowerCase($tableInfo.name)}) {
-        return R.ok().setData(PageHelper.startPage(pageNum, pageSize).doSelectPageInfo(() -> this.$!{tool.firstLowerCase($tableInfo.name)}Mapper.queryAll($!{tool.firstLowerCase($tableInfo.name)})));
+        return R.ok().data(PageHelper.startPage(pageNum, pageSize).doSelectPageInfo(() -> this.$!{tool.firstLowerCase($tableInfo.name)}Mapper.queryAll($!{tool.firstLowerCase($tableInfo.name)})));
         }
 
 /**
@@ -89,7 +89,7 @@ public R page(int pageNum, int pageSize, $!{tableInfo.name} $!{tool.firstLowerCa
  */
 @Override
 public R pageLike(int pageNum, int pageSize, $!{tableInfo.name} $!{tool.firstLowerCase($tableInfo.name)}) {
-        return R.ok().setData(PageHelper.startPage(pageNum, pageSize).doSelectPageInfo(() -> this.$!{tool.firstLowerCase($tableInfo.name)}Mapper.queryAllLike($!{tool.firstLowerCase($tableInfo.name)})));
+        return R.ok().data(PageHelper.startPage(pageNum, pageSize).doSelectPageInfo(() -> this.$!{tool.firstLowerCase($tableInfo.name)}Mapper.queryAllLike($!{tool.firstLowerCase($tableInfo.name)})));
         }
 
 /**
@@ -101,7 +101,7 @@ public R pageLike(int pageNum, int pageSize, $!{tableInfo.name} $!{tool.firstLow
 @Override
 public R insert($!{tableInfo.name} $!tool.firstLowerCase($!{tableInfo.name})) {
         this.$!{tool.firstLowerCase($!{tableInfo.name})}Mapper.insert($!tool.firstLowerCase($!{tableInfo.name}));
-        return R.ok().setData($!tool.firstLowerCase($!{tableInfo.name}));
+        return R.ok().data($!tool.firstLowerCase($!{tableInfo.name}));
         }
 
 /**
@@ -113,7 +113,7 @@ public R insert($!{tableInfo.name} $!tool.firstLowerCase($!{tableInfo.name})) {
 @Override
 public R update($!{tableInfo.name} $!tool.firstLowerCase($!{tableInfo.name})) {
         this.$!{tool.firstLowerCase($!{tableInfo.name})}Mapper.update($!tool.firstLowerCase($!{tableInfo.name}));
-        return R.ok().setData(this.$!{tool.firstLowerCase($!{tableInfo.name})}Mapper.queryById($!{tool.firstLowerCase($!{tableInfo.name})}.get$!tool.firstUpperCase($pk.name)()));
+        return R.ok().data(this.$!{tool.firstLowerCase($!{tableInfo.name})}Mapper.queryById($!{tool.firstLowerCase($!{tableInfo.name})}.get$!tool.firstUpperCase($pk.name)()));
         }
 
 /**
@@ -125,6 +125,6 @@ public R update($!{tableInfo.name} $!tool.firstLowerCase($!{tableInfo.name})) {
 @Override
 public R deleteById($!pk.shortType $!pk.name) {
         boolean del = this.$!{tool.firstLowerCase($!{tableInfo.name})}Mapper.deleteById($!pk.name) > 0;
-        return R.ok().setData(del);
+        return R.ok().data(del);
         }
         }
