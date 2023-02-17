@@ -68,8 +68,25 @@ public class R implements Serializable {
     }
 
     /**
+     * 由于被认为是客户端错误
+     * 错误的请求语法
+     * 无效的请求消息帧或欺骗性的请求路由
+     * 服务器无法或不会处理请求。
+     *
+     * @return R
+     */
+    public static R badRequest() {
+        R r = new R();
+        r.code = 400;
+        r.message = "Bad Request";
+        return r;
+    }
+
+
+    /**
      * 认证授权失败 Unauthorized
      * 请求要求用户的身份认证
+     * 客户端必须对自身进行身份验证才能获得请求的响应
      *
      * @return R
      */
@@ -83,6 +100,8 @@ public class R implements Serializable {
     /**
      * Forbidden
      * 服务器理解请求客户端的请求，但是拒绝执行此请求
+     * 客户端没有访问内容的权限，也就是说，它是未经授权的，因此服务器拒绝提供请求的资源。
+     * 与401Unauthorized不同，服务器知道客户端的身份。
      *
      * @return R
      */

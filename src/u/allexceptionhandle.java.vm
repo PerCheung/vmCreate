@@ -4,12 +4,17 @@ $!callback.setSavePath($tool.append($tableInfo.savePath, "/config/exception"))
 
 #if($tableInfo.savePackageName)package $!{tableInfo.savePackageName}.#{end}config.exception;
 
+import #if($tableInfo.savePackageName)$!{tableInfo.savePackageName}.#{end}util.ErrorPrintUtil;
 import #if($tableInfo.savePackageName)$!{tableInfo.savePackageName}.#{end}util.R;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
+
+import javax.validation.ValidationException;
 
 import static #if($tableInfo.savePackageName)$!{tableInfo.savePackageName}.#{end}config.constant.Constant.PACKAGE_NAME;
 
@@ -23,17 +28,32 @@ import static #if($tableInfo.savePackageName)$!{tableInfo.savePackageName}.#{end
 @ControllerAdvice
 @ResponseBody
 public class AllExceptionHandle {
+    /**
+     * 校验传参
+     */
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(ValidationException.class)
+    public R handleBadRequest(Exception e) {
+        return R.badRequest().data(e(e));
+    }
+
+    /**
+     * 全局异常处理
+     */
     @ExceptionHandler(Exception.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public R exception(Exception e) {
-        //控制台颜色 91-亮红 1-字体加粗
-        System.out.println("\033[91;1m错误信息如下：");
-        //错误信息打印
-        log.error(e.toString());
-        //控制台清除状态
-        System.out.print("\033[0m");
-        //控制台颜色还原 93-亮黄
-        System.out.print("\033[93m");
-        //返回错误信息
+        return R.exp().data(e(e));
+    }
+
+    /**
+     * 异常信息处理主体方法
+     * @param e 异常对象
+     * @return 异常解析信息
+     */
+    private String e(Exception e) {
+        ErrorPrintUtil.print(e);
+        //错误信息
         StringBuilder errorMessage = new StringBuilder();
         String error = StringUtils.isNotBlank(e.getMessage()) ? e.getMessage() : e.toString();
         errorMessage.append(error);
@@ -45,9 +65,11 @@ public class AllExceptionHandle {
                 errorMessage.append(errorName);
                 String errorLineNumber = ":" + stackTraceElement.getLineNumber();
                 errorMessage.append(errorLineNumber);
-                return R.exp().data(errorMessage);
+                ErrorPrintUtil.print(errorMessage);
+                return errorMessage.toString();
             }
         }
-        return R.exp().data(errorMessage);
+        ErrorPrintUtil.print(errorMessage);
+        return errorMessage.toString();
     }
 }
