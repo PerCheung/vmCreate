@@ -5,6 +5,9 @@ $!callback.setSavePath($tool.append($tableInfo.savePath, "/util"))
 #if($tableInfo.savePackageName)package $!{tableInfo.savePackageName}.#{end}util;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.ansi.AnsiColor;
+import org.springframework.boot.ansi.AnsiStyle;
+
 /**
  * 醒目地打印错误信息
  *
@@ -17,11 +20,11 @@ public class ErrorPrintUtil {
      * 醒目地打印错误信息
      */
     public static void print(Object e) {
-        //控制台颜色 91-红 1-字体加粗
-        System.out.print("\033[31;1m");
+        //调整控制台颜色
+        System.out.print("\033[" + AnsiColor.RED + ";" + AnsiStyle.BOLD + "m");
         //错误信息打印
         log.error(e.toString());
         //控制台清除状态
-        System.out.print("\033[0m");
+        System.out.print("\033[" + AnsiStyle.NORMAL + "m");
     }
 }

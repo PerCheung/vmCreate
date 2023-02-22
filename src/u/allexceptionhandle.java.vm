@@ -54,7 +54,7 @@ public class AllExceptionHandle {
     private String e(Exception e) {
         ErrorPrintUtil.print(e);
         //错误信息
-        StringBuilder errorMessage = new StringBuilder();
+        StringBuffer errorMessage = new StringBuffer();
         String error = StringUtils.isNotBlank(e.getMessage()) ? e.getMessage() : e.toString();
         errorMessage.append(error);
         StackTraceElement[] stackTrace = e.getStackTrace();
