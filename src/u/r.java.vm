@@ -6,6 +6,7 @@ $!callback.setSavePath($tool.append($tableInfo.savePath, "/util"))
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 
 import java.io.Serializable;
 
@@ -62,8 +63,8 @@ public class R implements Serializable {
      */
     public static R ok() {
         R r = new R();
-        r.code = 200;
-        r.message = "OK";
+        r.code = HttpStatus.OK.value();
+        r.message = HttpStatus.OK.getReasonPhrase();
         return r;
     }
 
@@ -77,8 +78,8 @@ public class R implements Serializable {
      */
     public static R badRequest() {
         R r = new R();
-        r.code = 400;
-        r.message = "Bad Request";
+        r.code = HttpStatus.BAD_REQUEST.value();
+        r.message = HttpStatus.BAD_REQUEST.getReasonPhrase();
         return r;
     }
 
@@ -92,8 +93,8 @@ public class R implements Serializable {
      */
     public static R unauthorized() {
         R r = new R();
-        r.code = 401;
-        r.message = "unauthorized";
+        r.code = HttpStatus.UNAUTHORIZED.value();
+        r.message = HttpStatus.UNAUTHORIZED.getReasonPhrase();
         return r;
     }
 
@@ -107,8 +108,8 @@ public class R implements Serializable {
      */
     public static R forbidden() {
         R r = new R();
-        r.code = 403;
-        r.message = "Forbidden";
+        r.code = HttpStatus.FORBIDDEN.value();
+        r.message = HttpStatus.FORBIDDEN.getReasonPhrase();
         return r;
     }
 
@@ -120,8 +121,8 @@ public class R implements Serializable {
      */
     public static R exp() {
         R r = new R();
-        r.code = 500;
-        r.message = "Internal Server Error";
+        r.code = HttpStatus.INTERNAL_SERVER_ERROR.value();
+        r.message = HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase();
         return r;
     }
 }
