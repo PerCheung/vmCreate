@@ -17,13 +17,11 @@ public class ErrorPrintUtil {
      * 醒目地打印错误信息
      */
     public static void print(Object e) {
-        //控制台颜色 91-亮红 1-字体加粗
-        System.out.println("\033[91;1m");
+        //控制台颜色 91-红 1-字体加粗
+        System.out.print("\033[31;1m");
         //错误信息打印
-        log.error("错误信息：" + e);
+        log.error(e.toString());
         //控制台清除状态
         System.out.print("\033[0m");
-        //控制台颜色还原 93-亮黄
-        System.out.print("\033[93m");
     }
 }

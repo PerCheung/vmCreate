@@ -45,6 +45,12 @@ mybatis:
   configuration:
     # call-setters-on-nulls 参数的作用是查询的某一行某一列为null，是否返回
     call-setters-on-nulls: true
+    # 禁用二级缓存
+    cache-enabled: false
+    # 一级缓存指定为statement级别 效果为禁用一级缓存
+    local-cache-scope: statement
+    # 日志
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
 pagehelper:
   # 默认值false，当值为true时，pageSize=0或者RowBounds.limit=0查询全部结果（相当于没有执行分页查询，但是返回结果仍然是Page类型）
