@@ -1,3 +1,4 @@
+FOR MAVEN =====================================================================
 <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -68,3 +69,21 @@
             <scope>test</scope>
         </dependency>
 </dependencies>
+===============================================================================
+
+FOR GRADLE ====================================================================
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web:2.7.5'
+    implementation 'net.sf.json-lib:json-lib:2.4:jdk15'
+    implementation 'com.alibaba:fastjson:2.0.20'
+    implementation 'org.apache.commons:commons-lang3:3.12.0'
+    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.2'
+    implementation 'com.alibaba:druid-spring-boot-starter:1.2.15'
+    implementation 'com.github.pagehelper:pagehelper-spring-boot-starter:1.4.1'
+    implementation 'org.springframework.boot:spring-boot-starter-validation:2.7.5'
+    implementation 'io.springfox:springfox-boot-starter:3.0.0'
+    implementation 'org.projectlombok:lombok:1.18.24'
+    runtimeOnly 'com.mysql:mysql-connector-j:8.0.31'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test:2.7.5'
+}
+===============================================================================
