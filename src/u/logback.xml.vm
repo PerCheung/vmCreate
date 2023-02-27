@@ -1,61 +1,62 @@
 ##设置回调
-$!callback.setFileName($tool.append("logback.xml"))
+$!callback.setFileName($tool.append("logback-spring.xml"))
 $!callback.setSavePath($tool.append($modulePath, "/src/main/resources"))
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <configuration>
-    <contextName>logback</contextName>
-    <!--定义日志文件的存储地址-->
-    <property name="LOG_HOME" value="logs" />
+    <contextName>logback-spring</contextName>
+    <property name="pattern"
+              value="%d{yyyy-MM-dd HH:mm:ss.SSS,GMT+8} [%thread] %-5level %logger{50} - %msg %n"/>
+    <property name="pattern-color"
+              value="%yellow(%d{yyyy-MM-dd HH:mm:ss.SSS,GMT+8}) [%thread] %highlight(%-5level) %green(%logger{50}) - %highlight(%msg) %n"/>
+    <property name="LOG_HOME"
+              value="logs"/>
 
-    <appender name="console"  class="ch.qos.logback.core.ConsoleAppender">
+    <!-- 控制台输出-带颜色 -->
+    <appender name="console-with-color" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${pattern-color}</pattern>
+        </encoder>
+    </appender>
+
+    <!-- 所有日志文件输出 -->
+    <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_HOME}/%d.all.%i.log</fileNamePattern>
+            <!-- 日志文件最大的大小 -->
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>10MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <!--日志文件保留天数 -->
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
         <encoder>
-            <pattern>%d{HH:mm:ss.SSS} %contextName [%thread] %-5level %logger{36} - %msg%n</pattern>
+            <pattern>${pattern}</pattern>
         </encoder>
     </appender>
 
     <!--输出错误日志-->
     <appender name="error" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <FileNamePattern>${LOG_HOME}/error/%d{yyyy-MM-dd}/error.log</FileNamePattern>
+            <FileNamePattern>${LOG_HOME}/error/%d.error.%i.log</FileNamePattern>
+            <!-- 日志文件最大的大小 -->
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>10MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
             <!--日志文件保留天数 -->
-            <MaxHistory>10</MaxHistory>
+            <maxHistory>30</maxHistory>
         </rollingPolicy>
-        <!-- 日志名称的格式 -->
-        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符 -->
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{30} - %msg%n</pattern>
+        <encoder>
+            <pattern>${pattern}</pattern>
         </encoder>
-        <!--日志文件最大的大小 -->
-        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
-            <MaxFileSize>10MB</MaxFileSize>
-        </triggeringPolicy>
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <level>ERROR</level>
             <onMatch>ACCEPT</onMatch>
             <onMismatch>DENY</onMismatch>
         </filter>
-
     </appender>
 
-    <!--普通日志文件-->
-    <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <FileNamePattern>${LOG_HOME}/%d{yyyy-MM-dd}/info.log</FileNamePattern>
-            <!--日志文件保留天数 -->
-            <MaxHistory>10</MaxHistory>
-        </rollingPolicy>
-        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符 -->
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{30} - %msg%n</pattern>
-        </encoder>
-        <!--日志文件最大的大小 -->
-        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
-            <MaxFileSize>10MB</MaxFileSize>
-        </triggeringPolicy>
-    </appender>
-
-    <root level="info">
-        <appender-ref ref="console"/>
+    <root level="INFO">
+        <appender-ref ref="console-with-color"/>
         <appender-ref ref="file"/>
         <appender-ref ref="error"/>
     </root>

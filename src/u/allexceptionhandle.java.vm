@@ -52,11 +52,14 @@ public class AllExceptionHandle {
      * @return 异常解析信息
      */
     private String e(Exception e) {
-        ErrorPrintUtil.print(e);
         //错误信息
         StringBuffer errorMessage = new StringBuffer();
-        String error = StringUtils.isNotBlank(e.getMessage()) ? e.getMessage() : e.toString();
-        errorMessage.append(error);
+        errorMessage.append(e);
+        if (StringUtils.isBlank(e.getMessage())) {
+            //处理
+            log.error(String.valueOf(errorMessage));
+            return String.valueOf(errorMessage);
+        }
         StackTraceElement[] stackTrace = e.getStackTrace();
         for (StackTraceElement stackTraceElement : stackTrace) {
             String className = stackTraceElement.getClassName();
@@ -65,11 +68,13 @@ public class AllExceptionHandle {
                 errorMessage.append(errorName);
                 String errorLineNumber = ":" + stackTraceElement.getLineNumber();
                 errorMessage.append(errorLineNumber);
-                ErrorPrintUtil.print(errorMessage);
-                return errorMessage.toString();
+                //处理
+                log.error(String.valueOf(errorMessage));
+                return String.valueOf(errorMessage);
             }
         }
-        ErrorPrintUtil.print(errorMessage);
-        return errorMessage.toString();
+        //处理
+        log.error(String.valueOf(errorMessage));
+        return String.valueOf(errorMessage);
     }
 }
