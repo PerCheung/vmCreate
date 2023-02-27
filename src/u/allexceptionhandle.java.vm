@@ -4,7 +4,6 @@ $!callback.setSavePath($tool.append($tableInfo.savePath, "/config/exception"))
 
 #if($tableInfo.savePackageName)package $!{tableInfo.savePackageName}.#{end}config.exception;
 
-import #if($tableInfo.savePackageName)$!{tableInfo.savePackageName}.#{end}util.ErrorPrintUtil;
 import #if($tableInfo.savePackageName)$!{tableInfo.savePackageName}.#{end}util.R;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
