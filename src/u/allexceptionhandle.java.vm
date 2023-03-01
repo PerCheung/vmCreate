@@ -47,12 +47,13 @@ public class AllExceptionHandle {
 
     /**
      * 异常信息处理主体方法
+     *
      * @param e 异常对象
      * @return 异常解析信息
      */
     private String e(Exception e) {
         //错误信息
-        StringBuffer errorMessage = new StringBuffer();
+        StringBuilder errorMessage = new StringBuilder();
         errorMessage.append(e);
         if (StringUtils.isBlank(e.getMessage())) {
             //处理
