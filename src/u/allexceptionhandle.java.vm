@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import javax.validation.ValidationException;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 
 import static #if($tableInfo.savePackageName)$!{tableInfo.savePackageName}.#{end}config.constant.Constant.PACKAGE_NAME;
 
@@ -52,6 +54,9 @@ public class AllExceptionHandle {
      * @return 异常解析信息
      */
     private String e(Exception e) {
+        ByteArrayOutputStream printStackTrace = new ByteArrayOutputStream();
+        e.printStackTrace(new PrintStream(printStackTrace));
+        log.error(String.valueOf(printStackTrace));
         //错误信息
         StringBuilder errorMessage = new StringBuilder();
         errorMessage.append(e);

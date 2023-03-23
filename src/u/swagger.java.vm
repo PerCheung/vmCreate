@@ -3,6 +3,8 @@ $!callback.setFileName($tool.append("SwaggerConfig.java"))
 $!callback.setSavePath($tool.append($tableInfo.savePath, "/config/swagger"))
 
 #if($tableInfo.savePackageName)package $!{tableInfo.savePackageName}.#{end}config.swagger;
+
+import com.github.xiaoymin.knife4j.spring.annotations.EnableKnife4j;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -27,6 +29,7 @@ import static #if($tableInfo.savePackageName)$!{tableInfo.savePackageName}.#{end
 @Slf4j
 @Configuration
 @EnableOpenApi
+@EnableKnife4j
 public class SwaggerConfig {
     /**
      * 用于读取配置文件 swagger 属性是否开启
