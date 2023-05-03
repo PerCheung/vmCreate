@@ -7,6 +7,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 import java.io.Serializable;
 
@@ -124,5 +125,26 @@ public class R implements Serializable {
         r.code = HttpStatus.INTERNAL_SERVER_ERROR.value();
         r.message = HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase();
         return r;
+    }
+
+    /**
+     * 将R转换为ResponseEntity
+     *
+     * @param r body
+     * @return 响应实体
+     */
+    public static ResponseEntity<R> deal(R r) {
+        switch (r.getCode()) {
+            case 400:
+                return ResponseEntity.badRequest().body(r);
+            case 401:
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(r);
+            case 403:
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body(r);
+            case 500:
+                return ResponseEntity.internalServerError().body(r);
+            default:
+                return ResponseEntity.ok(r);
+        }
     }
 }

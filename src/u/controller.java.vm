@@ -16,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import $!{tableInfo.savePackageName}.mvc.domain.$!{tableInfo.name};
 import $!{tableInfo.savePackageName}.mvc.service.$!{tableInfo.name}Service;
 import $!{tableInfo.savePackageName}.util.R;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -45,8 +46,8 @@ private $!{tableInfo.name}Service $!tool.firstLowerCase($tableInfo.name)Service;
  */
 @ApiOperation("全查询")
 @GetMapping
-public R queryAll(@ApiParam(value = "$!{tool.firstLowerCase($tableInfo.name)} 筛选条件") $!{tableInfo.name} $!{tool.firstLowerCase($tableInfo.name)}) {
-        return this.$!{tool.firstLowerCase($tableInfo.name)}Service.queryAll($!{tool.firstLowerCase($tableInfo.name)});
+public ResponseEntity<R> queryAll(@ApiParam(value = "$!{tool.firstLowerCase($tableInfo.name)} 筛选条件") $!{tableInfo.name} $!{tool.firstLowerCase($tableInfo.name)}){
+        return R.deal(this.$!{tool.firstLowerCase($tableInfo.name)}Service.queryAll($!{tool.firstLowerCase($tableInfo.name)}));
         }
 
 /**
@@ -57,8 +58,8 @@ public R queryAll(@ApiParam(value = "$!{tool.firstLowerCase($tableInfo.name)} �
  */
 @ApiOperation("模糊全查询")
 @PostMapping("like")
-public R queryAllLike(@ApiParam(value = "$!{tool.firstLowerCase($tableInfo.name)} 筛选条件") $!{tableInfo.name} $!{tool.firstLowerCase($tableInfo.name)}) {
-        return this.$!{tool.firstLowerCase($tableInfo.name)}Service.queryAllLike($!{tool.firstLowerCase($tableInfo.name)});
+public ResponseEntity<R> queryAllLike(@ApiParam(value = "$!{tool.firstLowerCase($tableInfo.name)} 筛选条件") $!{tableInfo.name} $!{tool.firstLowerCase($tableInfo.name)}){
+        return R.deal(this.$!{tool.firstLowerCase($tableInfo.name)}Service.queryAllLike($!{tool.firstLowerCase($tableInfo.name)}));
         }
 
 /**
@@ -69,8 +70,8 @@ public R queryAllLike(@ApiParam(value = "$!{tool.firstLowerCase($tableInfo.name)
  */
 @ApiOperation("通过主键查询单条数据")
 @GetMapping("{id}")
-public R queryById(@ApiParam(value = "id 主键") @PathVariable("id") $!pk.shortType id) {
-        return this.$!{tool.firstLowerCase($tableInfo.name)}Service.queryById(id);
+public ResponseEntity<R> queryById(@ApiParam(value = "id 主键") @PathVariable("id") $!pk.shortType id){
+        return R.deal(this.$!{tool.firstLowerCase($tableInfo.name)}Service.queryById(id));
         }
 
 /**
@@ -83,8 +84,8 @@ public R queryById(@ApiParam(value = "id 主键") @PathVariable("id") $!pk.short
  */
 @ApiOperation("分页查询")
 @PostMapping("page")
-public R page(@ApiParam(value = "页数，不传默认是第一页") @RequestParam(defaultValue = "1") int pageNum, @ApiParam(value = "每页数量，不传默认是10个") @RequestParam(defaultValue = "10") int pageSize, @ApiParam(value = "$!{tool.firstLowerCase($tableInfo.name)} 筛选条件") @RequestBody $!{tableInfo.name} $!{tool.firstLowerCase($tableInfo.name)}) {
-        return this.$!{tool.firstLowerCase($tableInfo.name)}Service.page(pageNum, pageSize,$!{tool.firstLowerCase($tableInfo.name)});
+public ResponseEntity<R> page(@ApiParam(value = "页数，不传默认是第一页") @RequestParam(defaultValue = "1") int pageNum,@ApiParam(value = "每页数量，不传默认是10个") @RequestParam(defaultValue = "10") int pageSize,@ApiParam(value = "$!{tool.firstLowerCase($tableInfo.name)} 筛选条件") @RequestBody $!{tableInfo.name} $!{tool.firstLowerCase($tableInfo.name)}){
+        return R.deal(this.$!{tool.firstLowerCase($tableInfo.name)}Service.page(pageNum,pageSize,$!{tool.firstLowerCase($tableInfo.name)}));
         }
 
 /**
@@ -97,8 +98,8 @@ public R page(@ApiParam(value = "页数，不传默认是第一页") @RequestPar
  */
 @ApiOperation("分页模糊查询")
 @PostMapping("page/like")
-public R pageLike(@ApiParam(value = "页数，不传默认是第一页") @RequestParam(defaultValue = "1") int pageNum, @ApiParam(value = "每页数量，不传默认是10个") @RequestParam(defaultValue = "10") int pageSize, @ApiParam(value = "$!{tool.firstLowerCase($tableInfo.name)} 筛选条件") @RequestBody $!{tableInfo.name} $!{tool.firstLowerCase($tableInfo.name)}) {
-        return this.$!{tool.firstLowerCase($tableInfo.name)}Service.pageLike(pageNum, pageSize,$!{tool.firstLowerCase($tableInfo.name)});
+public ResponseEntity<R> pageLike(@ApiParam(value = "页数，不传默认是第一页") @RequestParam(defaultValue = "1") int pageNum,@ApiParam(value = "每页数量，不传默认是10个") @RequestParam(defaultValue = "10") int pageSize,@ApiParam(value = "$!{tool.firstLowerCase($tableInfo.name)} 筛选条件") @RequestBody $!{tableInfo.name} $!{tool.firstLowerCase($tableInfo.name)}){
+        return R.deal(this.$!{tool.firstLowerCase($tableInfo.name)}Service.pageLike(pageNum,pageSize,$!{tool.firstLowerCase($tableInfo.name)}));
         }
 
 /**
@@ -109,8 +110,8 @@ public R pageLike(@ApiParam(value = "页数，不传默认是第一页") @Reques
  */
 @ApiOperation("新增数据")
 @PostMapping
-public R add(@ApiParam(value = "$!{tool.firstLowerCase($tableInfo.name)} 实体") @RequestBody $!{tableInfo.name} $!{tool.firstLowerCase($tableInfo.name)}) {
-        return this.$!{tool.firstLowerCase($tableInfo.name)}Service.insert($!{tool.firstLowerCase($tableInfo.name)});
+public ResponseEntity<R> add(@ApiParam(value = "$!{tool.firstLowerCase($tableInfo.name)} 实体") @RequestBody $!{tableInfo.name} $!{tool.firstLowerCase($tableInfo.name)}){
+        return R.deal(this.$!{tool.firstLowerCase($tableInfo.name)}Service.insert($!{tool.firstLowerCase($tableInfo.name)}));
         }
 
 /**
@@ -121,8 +122,8 @@ public R add(@ApiParam(value = "$!{tool.firstLowerCase($tableInfo.name)} 实体"
  */
 @ApiOperation("编辑数据")
 @PutMapping
-public R edit(@ApiParam(value = "$!{tool.firstLowerCase($tableInfo.name)} 实体") @RequestBody $!{tableInfo.name} $!{tool.firstLowerCase($tableInfo.name)}) {
-        return this.$!{tool.firstLowerCase($tableInfo.name)}Service.update($!{tool.firstLowerCase($tableInfo.name)});
+public ResponseEntity<R> edit(@ApiParam(value = "$!{tool.firstLowerCase($tableInfo.name)} 实体") @RequestBody $!{tableInfo.name} $!{tool.firstLowerCase($tableInfo.name)}){
+        return R.deal(this.$!{tool.firstLowerCase($tableInfo.name)}Service.update($!{tool.firstLowerCase($tableInfo.name)}));
         }
 
 /**
@@ -133,8 +134,7 @@ public R edit(@ApiParam(value = "$!{tool.firstLowerCase($tableInfo.name)} 实体
  */
 @ApiOperation("删除数据")
 @DeleteMapping
-public R deleteById(@ApiParam(value = "id 主键") @RequestParam $!pk.shortType id) {
-        return this.$!{tool.firstLowerCase($tableInfo.name)}Service.deleteById(id);
+public ResponseEntity<R> deleteById(@ApiParam(value = "id 主键") @RequestParam $!pk.shortType id){
+        return R.deal(this.$!{tool.firstLowerCase($tableInfo.name)}Service.deleteById(id));
         }
-
         }

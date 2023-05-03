@@ -7,11 +7,10 @@ $!callback.setSavePath($tool.append($tableInfo.savePath, "/config/exception"))
 import #if($tableInfo.savePackageName)$!{tableInfo.savePackageName}.#{end}util.R;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
 import javax.validation.ValidationException;
 import java.io.ByteArrayOutputStream;
@@ -32,19 +31,17 @@ public class AllExceptionHandle {
     /**
      * 校验传参
      */
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(ValidationException.class)
-    public R handleBadRequest(Exception e) {
-        return R.badRequest().data(e(e));
+    public ResponseEntity<R> handleBadRequest(Exception e) {
+        return R.deal(R.badRequest().data(e(e)));
     }
 
     /**
      * 全局异常处理
      */
     @ExceptionHandler(Exception.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public R exception(Exception e) {
-        return R.exp().data(e(e));
+    public ResponseEntity<R> exception(Exception e) {
+        return R.deal(R.exp().data(e(e)));
     }
 
     /**
