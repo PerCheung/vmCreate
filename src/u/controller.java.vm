@@ -27,6 +27,7 @@ import javax.annotation.Resource;
  * @author $!author
  * @since $!time.currTime()
  */
+@CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE, RequestMethod.HEAD})
 @Slf4j
 @RestController
 @RequestMapping("$!tool.firstLowerCase($tableInfo.name)")

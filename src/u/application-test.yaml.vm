@@ -49,9 +49,9 @@ mybatis:
     # call-setters-on-nulls 参数的作用是查询的某一行某一列为null，是否返回
     call-setters-on-nulls: true
     # 禁用二级缓存
-    cache-enabled: false
+    # cache-enabled: false
     # 一级缓存指定为statement级别 效果为禁用一级缓存
-    local-cache-scope: statement
+    # local-cache-scope: statement
     # 日志
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
