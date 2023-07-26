@@ -1,0 +1,70 @@
+##设置回调
+$!callback.setFileName($tool.append("IndexController.java"))
+$!callback.setSavePath($tool.append($tableInfo.savePath, "/mvc/controller"))
+
+#if($tableInfo.savePackageName)package $!{tableInfo.savePackageName}.#{end}mvc.controller;
+
+import $!{tableInfo.savePackageName}.util.MonitorUtil;
+import $!{tableInfo.savePackageName}.util.R;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.File;
+import java.io.IOException;
+import java.lang.management.ManagementFactory;
+import java.util.Properties;
+
+/**
+ * 主页控制层
+ *
+ * @author $!author
+ * @since $!time.currTime()
+ */
+@CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE, RequestMethod.HEAD})
+@Slf4j
+@RestController
+@RequestMapping("index")
+@Api(tags = "主页")
+public class IndexController {
+    /**
+     * 上传文件
+     */
+    @ApiOperation("上传文件")
+    @PostMapping("upload")
+    public R upload(MultipartFile file) {
+        Properties props = System.getProperties();
+        //根路径
+        String rootPath = props.getProperty("user.dir");
+        //分隔符
+        String separator = props.getProperty("file.separator");
+
+        // 检查文件夹是否存在，如果不存在则创建
+        String folderPath = rootPath + separator + "file";
+        File folder = new File(folderPath);
+        if (!folder.exists()) {
+            folder.mkdir();
+        }
+        // 保存文件到指定路径
+        String originalFilename = file.getOriginalFilename();
+        String filePath = folderPath + separator + originalFilename;
+        try {
+            file.transferTo(new File(filePath));
+            return R.ok().data("上传成功");
+        } catch (IOException e) {
+            return R.exp().data("上传失败");
+        }
+    }
+
+    /**
+     * 监控内存
+     */
+    @ApiOperation("监控内存")
+    @GetMapping("monitor")
+    public R monitor() {
+        MonitorUtil.monitor();
+        return R.ok().data(ManagementFactory.getMemoryMXBean().getHeapMemoryUsage().getUsed() / 1024 / 1024 + "MB");
+    }
+}
