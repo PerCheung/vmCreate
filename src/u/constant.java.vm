@@ -21,9 +21,4 @@ public interface Constant {
      * swagger扫描包
      */
     String SWAGGER_PACKAGE = "#if($tableInfo.savePackageName)$!{tableInfo.savePackageName}.#{end}mvc.controller";
-
-    /**
-     * MD5盐用于混交md5
-     */
-    String MD5_SALT = "$!tool.serial()MD5Util";
 }

@@ -1,0 +1,157 @@
+##设置回调
+$!callback.setFileName($tool.append("IndexServiceImpl.java"))
+$!callback.setSavePath($tool.append($tableInfo.savePath, "/mvc/service/impl"))
+
+#if($tableInfo.savePackageName)package $!{tableInfo.savePackageName}.#{end}mvc.service.impl;
+
+import $!{tableInfo.savePackageName}.mvc.domain.UploadFileObject;
+import $!{tableInfo.savePackageName}.mvc.service.IndexService;
+import $!{tableInfo.savePackageName}.util.R;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import org.springframework.util.DigestUtils;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.annotation.Resource;
+import java.io.File;
+import java.io.IOException;
+import java.lang.management.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Properties;
+import java.util.UUID;
+
+/**
+ * 主页服务实现类
+ *
+ * @author $!author
+ * @since $!time.currTime()
+ */
+@Slf4j
+@Service
+public class IndexServiceImpl implements IndexService {
+    /**
+     * Jackson核心类
+     */
+    @Resource
+    private ObjectMapper objectMapper;
+
+    /**
+     * 监控内存
+     *
+     * @return 运行环境信息
+     */
+    @Override
+    public R monitor() throws JsonProcessingException {
+        OperatingSystemMXBean operatingSystemMXBean = ManagementFactory.getOperatingSystemMXBean();
+        String osName = System.getProperty("os.name");
+        String osArch = System.getProperty("os.arch");
+        long memorySize = Runtime.getRuntime().totalMemory();
+        long freeMemorySize = Runtime.getRuntime().freeMemory();
+        long maxMemory = Runtime.getRuntime().maxMemory();
+        MemoryMXBean memoryMXBean = ManagementFactory.getMemoryMXBean();
+        MemoryUsage heapMemoryUsage = memoryMXBean.getHeapMemoryUsage();
+        MemoryUsage nonHeapMemoryUsage = memoryMXBean.getNonHeapMemoryUsage();
+        ThreadMXBean threadMXBean = ManagementFactory.getThreadMXBean();
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("当前时间", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy年MM月dd日 H点m分s秒")));
+        map.put("计算机系统信息", osName + " " + osArch);
+        map.put("计算机系统版本", operatingSystemMXBean.getVersion());
+        map.put("计算机CPU核数", operatingSystemMXBean.getAvailableProcessors());
+        map.put("Java虚拟机最初向操作系统请求用于堆内存管理的内存量", heapMemoryUsage.getInit() / 1024 / 1024 + "MB");
+        map.put("Java虚拟机已用堆内存量", heapMemoryUsage.getUsed() / 1024 / 1024 + "MB");
+        map.put("Java虚拟机中返回当前活动线程数，包括守护线程和非守护线程", threadMXBean.getThreadCount());
+        map.put("不设置情况下Java虚拟机将获取的内存总量", memorySize / 1024 / 1024 + "MB");
+        map.put("不设置情况下Java虚拟机将获取的可用内存量", freeMemorySize / 1024 / 1024 + "MB");
+        map.put("不设置情况下Java虚拟机将尝试使用的最大内存量", maxMemory / 1024 / 1024 + "MB");
+        map.put("Java虚拟机最初向操作系统请求用于非堆内存大小", nonHeapMemoryUsage.getInit() / 1024 / 1024 + "MB");
+        map.put("Java虚拟机已用非堆内存大小", nonHeapMemoryUsage.getUsed() / 1024 / 1024 + "MB");
+        HashMap<Object, Object> sysMap = new HashMap<>();
+        System.getProperties().forEach((key, value) -> sysMap.put(key, value));
+        map.put("系统属性", sysMap);
+        // map转json
+        String json = objectMapper.writeValueAsString(map);
+        log.info(json);
+        return R.ok().data(map);
+    }
+
+    /**
+     * 加盐MD5加密
+     *
+     * @param str  原始字符串
+     * @param salt 盐值
+     * @return 最终生成字符串
+     */
+    @Override
+    public String toMD5(String str, String salt) {
+        String base = str + salt;
+        return DigestUtils.md5DigestAsHex(base.getBytes());
+    }
+
+    /**
+     * 制造simple-uuid
+     *
+     * @return simple-uuid
+     */
+    @Override
+    public String simpleUUID() {
+        return UUID.randomUUID().toString().replaceAll("-", "");
+    }
+
+    /**
+     * 上传文件
+     *
+     * @param file 上传的文件
+     * @return 上传结果
+     */
+    @Override
+    public R upload(MultipartFile file) {
+        Properties props = System.getProperties();
+        // 根路径
+        String rootPath = props.getProperty("user.dir");
+        // 分隔符
+        String separator = props.getProperty("file.separator");
+
+        // 检查文件夹是否存在，如果不存在则创建
+        String folderPath = rootPath + separator + "file";
+        File folder = new File(folderPath);
+        if (!folder.exists()) {
+            folder.mkdir();
+        }
+
+        // 检查上传文件是否为空文件
+        if (file.isEmpty()) {
+            return R.badRequest().data("文件为空");
+        }
+
+        // 文件实体类
+        UploadFileObject uploadFileObject = new UploadFileObject();
+        // 文件唯一ID
+        uploadFileObject.setFileUUID(simpleUUID());
+        // 文件的原始文件名
+        uploadFileObject.setOriginalFilename(file.getOriginalFilename());
+        // 上传文件的内容类型
+        uploadFileObject.setContentType(file.getContentType());
+        // 返回上传文件的大小（以字节为单位）
+        uploadFileObject.setSize(file.getSize());
+        // 创建时间
+        uploadFileObject.setCreateTime(new Date());
+
+        // 创建保存文件的文件夹
+        String filePath = folderPath + separator + uploadFileObject.getFileUUID();
+        new File(filePath).mkdir();
+
+        // 保存文件
+        String fileOriginalPath = filePath + separator + uploadFileObject.getOriginalFilename();
+        try {
+            file.transferTo(new File(fileOriginalPath));
+            return R.ok().data(uploadFileObject);
+        } catch (IOException e) {
+            return R.exp().data("上传失败");
+        }
+    }
+}

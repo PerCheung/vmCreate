@@ -1,0 +1,50 @@
+##定义初始变量
+#set($tableName = $tool.append($tableInfo.name, "Service"))
+##设置回调
+$!callback.setFileName($tool.append("IndexService.java"))
+$!callback.setSavePath($tool.append($tableInfo.savePath, "/mvc/service"))
+
+#if($tableInfo.savePackageName)package $!{tableInfo.savePackageName}.#{end}mvc.service;
+
+import $!{tableInfo.savePackageName}.util.R;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import org.springframework.web.multipart.MultipartFile;
+
+/**
+ * 主页服务接口
+ *
+ * @author $!author
+ * @since $!time.currTime()
+ */
+public interface IndexService {
+    /**
+     * 监控内存
+     *
+     * @return 运行环境信息
+     */
+    R monitor() throws JsonProcessingException;
+
+    /**
+     * 加盐MD5加密
+     *
+     * @param str  原始字符串
+     * @param salt MD5盐用于混交md5
+     * @return 最终生成字符串
+     */
+    String toMD5(String str, String salt);
+
+    /**
+     * 制造simple-uuid
+     *
+     * @return simple-uuid
+     */
+    String simpleUUID();
+
+    /**
+     * 上传文件
+     *
+     * @param file 上传的文件
+     * @return 上传结果
+     */
+    R upload(MultipartFile file);
+}
