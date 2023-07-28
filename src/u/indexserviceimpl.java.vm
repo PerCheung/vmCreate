@@ -25,6 +25,8 @@ import java.util.HashMap;
 import java.util.Properties;
 import java.util.UUID;
 
+import static #if($tableInfo.savePackageName)$!{tableInfo.savePackageName}.#{end}config.exception.AllExceptionHandle.e;
+
 /**
  * 主页服务实现类
  *
@@ -150,7 +152,9 @@ public class IndexServiceImpl implements IndexService {
         try {
             file.transferTo(new File(fileOriginalPath));
             return R.ok().data(uploadFileObject);
-        } catch (IOException e) {
+        } catch (Exception e) {
+            log.error("上传文件报错");
+            e(e);
             return R.exp().data("上传失败");
         }
     }

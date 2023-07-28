@@ -26,6 +26,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Properties;
 
+import static #if($tableInfo.savePackageName)$!{tableInfo.savePackageName}.#{end}config.exception.AllExceptionHandle.e;
+
 /**
  * 主页控制层
  *
@@ -108,8 +110,7 @@ public class IndexController {
             }
         } catch (Exception e) {
             log.error("下载文件报错");
-            log.error(e.getMessage());
-            e.printStackTrace();
+            e(e);
             return ResponseEntity.internalServerError().build();
         }
     }

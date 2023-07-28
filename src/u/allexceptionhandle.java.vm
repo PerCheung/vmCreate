@@ -50,10 +50,14 @@ public class AllExceptionHandle {
      * @param e 异常对象
      * @return 异常解析信息
      */
-    private String e(Exception e) {
+    public static String e(Exception e) {
+        log.error("全局异常处理");
+        //打印详细报错日志
+        log.error("详细信息如下================================");
         ByteArrayOutputStream printStackTrace = new ByteArrayOutputStream();
         e.printStackTrace(new PrintStream(printStackTrace));
         log.error(String.valueOf(printStackTrace));
+        log.error("==========================================");
         //错误信息
         StringBuilder errorMessage = new StringBuilder();
         errorMessage.append(e);
@@ -66,8 +70,10 @@ public class AllExceptionHandle {
         for (StackTraceElement stackTraceElement : stackTrace) {
             String className = stackTraceElement.getClassName();
             if (className.startsWith(PACKAGE_NAME)) {
+                //报错类名称
                 String errorName = ";" + stackTraceElement.getClassName();
                 errorMessage.append(errorName);
+                //报错类行号
                 String errorLineNumber = ":" + stackTraceElement.getLineNumber();
                 errorMessage.append(errorLineNumber);
                 //处理
