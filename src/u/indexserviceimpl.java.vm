@@ -131,7 +131,7 @@ public class IndexServiceImpl implements IndexService {
         // 文件实体类
         UploadFileObject uploadFileObject = new UploadFileObject();
         // 文件唯一ID
-        uploadFileObject.setFileUUID(simpleUUID());
+        uploadFileObject.setId(simpleUUID());
         // 文件的原始文件名
         uploadFileObject.setOriginalFilename(file.getOriginalFilename());
         // 上传文件的内容类型
@@ -142,7 +142,7 @@ public class IndexServiceImpl implements IndexService {
         uploadFileObject.setCreateTime(new Date());
 
         // 创建保存文件的文件夹
-        String filePath = folderPath + separator + uploadFileObject.getFileUUID();
+        String filePath = folderPath + separator + uploadFileObject.getId();
         new File(filePath).mkdir();
 
         // 保存文件
