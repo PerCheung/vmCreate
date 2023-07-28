@@ -4,6 +4,7 @@ $!callback.setSavePath($tool.append($tableInfo.savePath, "/mvc/controller"))
 
 #if($tableInfo.savePackageName)package $!{tableInfo.savePackageName}.#{end}mvc.controller;
 
+import $!{tableInfo.savePackageName}.config.exception.AllExceptionHandle;
 import $!{tableInfo.savePackageName}.mvc.domain.UploadFileObject;
 import $!{tableInfo.savePackageName}.mvc.service.IndexService;
 import $!{tableInfo.savePackageName}.util.R;
@@ -45,6 +46,8 @@ public class IndexController {
      */
     @Resource
     private IndexService indexService;
+    @Resource
+    private AllExceptionHandle allExceptionHandle;
 
     /**
      * 监控内存
@@ -110,7 +113,7 @@ public class IndexController {
             }
         } catch (Exception e) {
             log.error("下载文件报错");
-            e(e);
+            allExceptionHandle.e(e);
             return ResponseEntity.internalServerError().build();
         }
     }

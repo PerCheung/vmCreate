@@ -4,6 +4,7 @@ $!callback.setSavePath($tool.append($tableInfo.savePath, "/mvc/service/impl"))
 
 #if($tableInfo.savePackageName)package $!{tableInfo.savePackageName}.#{end}mvc.service.impl;
 
+import $!{tableInfo.savePackageName}.config.exception.AllExceptionHandle;
 import $!{tableInfo.savePackageName}.mvc.domain.UploadFileObject;
 import $!{tableInfo.savePackageName}.mvc.service.IndexService;
 import $!{tableInfo.savePackageName}.util.R;
@@ -41,6 +42,8 @@ public class IndexServiceImpl implements IndexService {
      */
     @Resource
     private ObjectMapper objectMapper;
+    @Resource
+    private AllExceptionHandle allExceptionHandle;
 
     /**
      * 监控内存
@@ -154,7 +157,7 @@ public class IndexServiceImpl implements IndexService {
             return R.ok().data(uploadFileObject);
         } catch (Exception e) {
             log.error("上传文件报错");
-            e(e);
+            allExceptionHandle.e(e);
             return R.exp().data("上传失败");
         }
     }

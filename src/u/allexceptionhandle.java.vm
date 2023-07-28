@@ -50,7 +50,7 @@ public class AllExceptionHandle {
      * @param e 异常对象
      * @return 异常解析信息
      */
-    public static String e(Exception e) {
+    public String e(Exception e) {
         log.error("全局异常处理");
         //打印详细报错日志
         log.error("详细信息如下================================");
