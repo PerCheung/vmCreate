@@ -26,8 +26,6 @@ import java.util.HashMap;
 import java.util.Properties;
 import java.util.UUID;
 
-import static #if($tableInfo.savePackageName)$!{tableInfo.savePackageName}.#{end}config.exception.AllExceptionHandle.e;
-
 /**
  * 主页服务实现类
  *
