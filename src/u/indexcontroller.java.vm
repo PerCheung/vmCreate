@@ -35,7 +35,7 @@ import java.util.Properties;
 @CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE, RequestMethod.HEAD})
 @Slf4j
 @RestController
-@RequestMapping("index")
+@RequestMapping("api/index")
 @Api(tags = "主页")
 public class IndexController {
     /**

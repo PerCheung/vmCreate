@@ -30,7 +30,7 @@ import javax.annotation.Resource;
 @CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE, RequestMethod.HEAD})
 @Slf4j
 @RestController
-@RequestMapping("$!tool.firstLowerCase($tableInfo.name)")
+@RequestMapping("api/$!tool.firstLowerCase($tableInfo.name)")
 @Api(tags = "$!{tableInfo.comment}($!{tableInfo.name})表控制层")
 public class $!{tableName} {
 /**

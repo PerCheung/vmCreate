@@ -1,0 +1,45 @@
+##设置回调
+$!callback.setFileName($tool.append("StpInterfaceImpl.java"))
+$!callback.setSavePath($tool.append($tableInfo.savePath, "/config/token"))
+
+#if($tableInfo.savePackageName)package $!{tableInfo.savePackageName}.#{end}config.token;
+
+import cn.dev33.satoken.stp.StpInterface;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * 提供权限认证
+ *
+ * @author $!author
+ * @since $!time.currTime()
+ */
+@Service
+public class StpInterfaceImpl implements StpInterface {
+
+    /**
+     * 返回一个账号所拥有的权限码集合
+     */
+    @Override
+    public List<String> getPermissionList(Object loginId, String loginType) {
+        // 本 list 仅做模拟，实际项目中要根据具体业务逻辑来查询权限
+        List<String> permissionList = new ArrayList<>();
+        permissionList.add("权限一");
+        permissionList.add("权限二");
+        permissionList.add("权限三");
+        return permissionList;
+    }
+
+    /**
+     * 返回一个账号所拥有的角色标识集合 (权限与角色可分开校验)
+     */
+    @Override
+    public List<String> getRoleList(Object loginId, String loginType) {
+        // 本 list 仅做模拟，实际项目中要根据具体业务逻辑来查询角色
+        List<String> roleList = new ArrayList<>();
+        roleList.add("管理员");
+        return roleList;
+    }
+}

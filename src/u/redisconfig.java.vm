@@ -1,0 +1,42 @@
+##设置回调
+$!callback.setFileName($tool.append("RedisConfig.java"))
+$!callback.setSavePath($tool.append($tableInfo.savePath, "/config/redis"))
+
+#if($tableInfo.savePackageName)package $!{tableInfo.savePackageName}.#{end}config.redis;
+
+import org.springframework.cache.annotation.CachingConfigurerSupport;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
+/**
+ * Redis配置类，更换默认序列化器
+ *
+ * @author $!author
+ * @since $!time.currTime()
+ */
+@Configuration
+public class RedisConfig extends CachingConfigurerSupport {
+    /**
+     * 创建 RedisTemplate Bean，用于操作 Redis 数据库。
+     *
+     * @param connectionFactory Redis 连接工厂
+     * @return RedisTemplate 实例
+     */
+    @Bean
+    public RedisTemplate<Object, Object> redisTemplate(RedisConnectionFactory connectionFactory) {
+        RedisTemplate<Object, Object> redisTemplate = new RedisTemplate<>();
+        // 设置 RedisTemplate 的键序列化器为 StringRedisSerializer
+        redisTemplate.setKeySerializer(new StringRedisSerializer());
+        // 设置 RedisTemplate 的哈希键序列化器为 StringRedisSerializer
+        redisTemplate.setHashKeySerializer(new StringRedisSerializer());
+        // 设置 RedisTemplate 的值序列化器为 StringRedisSerializer
+        redisTemplate.setValueSerializer(new StringRedisSerializer());
+        // 设置 RedisTemplate 的哈希值序列化器为 StringRedisSerializer
+        redisTemplate.setHashValueSerializer(new StringRedisSerializer());
+        // 设置 RedisTemplate 的连接工厂
+        redisTemplate.setConnectionFactory(connectionFactory);
+        return redisTemplate;
+    }
+}
