@@ -5,6 +5,7 @@ $!callback.setSavePath($tool.append($tableInfo.savePath, "/util"))
 #if($tableInfo.savePackageName)package $!{tableInfo.savePackageName}.#{end}util;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,7 @@ import java.io.Serializable;
  * @since $!time.currTime()
  */
 @Slf4j
+@Getter
 @ApiModel("统一返回对象R")
 public class R implements Serializable {
     private static final long serialVersionUID = $!tool.serial();
@@ -27,18 +29,6 @@ public class R implements Serializable {
     private String message;
     @ApiModelProperty(value = "响应数据")
     private Object data;
-
-    public int getCode() {
-        return code;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public Object getData() {
-        return data;
-    }
 
     /**
      * 私有构造方法
