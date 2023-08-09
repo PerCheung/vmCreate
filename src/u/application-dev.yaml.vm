@@ -34,12 +34,12 @@ spring:
     password:
     # 操作0号数据库，默认有16个数据库
     database: 0
-    jedis:
+    lettuce:
       pool:
         # 最大连接数
         max-active: 500
         # 连接池最大阻塞等待时间
-        max-wait: -1ms
+        max-wait: 1000ms
         # 连接池中的最大空闲连接
         max-idle: 100
         # 连接池中的最小空闲连接

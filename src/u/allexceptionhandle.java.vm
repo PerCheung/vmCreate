@@ -4,6 +4,9 @@ $!callback.setSavePath($tool.append($tableInfo.savePath, "/config/exception"))
 
 #if($tableInfo.savePackageName)package $!{tableInfo.savePackageName}.#{end}config.exception;
 
+import cn.dev33.satoken.exception.NotBasicAuthException;
+import cn.dev33.satoken.exception.NotLoginException;
+import cn.dev33.satoken.exception.NotRoleException;
 import #if($tableInfo.savePackageName)$!{tableInfo.savePackageName}.#{end}util.R;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -28,6 +31,22 @@ import static #if($tableInfo.savePackageName)$!{tableInfo.savePackageName}.#{end
 @ControllerAdvice
 @ResponseBody
 public class AllExceptionHandle {
+    /**
+     * 登录权限校验异常
+     */
+    @ExceptionHandler({NotLoginException.class})
+    public ResponseEntity<R> unauthorized(Exception e) {
+        return R.deal(R.unauthorized().data(e(e)));
+    }
+
+    /**
+     * 权限不足
+     */
+    @ExceptionHandler({NotRoleException.class, NotBasicAuthException.class})
+    public ResponseEntity<R> forbidden(Exception e) {
+        return R.deal(R.forbidden().data(e(e)));
+    }
+
     /**
      * 校验传参
      */
