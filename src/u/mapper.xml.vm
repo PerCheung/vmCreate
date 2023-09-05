@@ -152,6 +152,19 @@ $!callback.setSavePath($tool.append($modulePath, "/src/main/resources/mapper"))
         where $!pk.obj.name = #{$!pk.name}
     </update>
 
+    <!--通过主键修改全部非null数据-->
+    <update id="updateAll">
+        update $!{tableInfo.obj.name}
+        <set>
+            #foreach($column in $tableInfo.fullColumn)
+                <if test="$!column.name != null">
+                    $!column.obj.name = #{$!column.name},
+                </if>
+            #end
+        </set>
+        where $!pk.obj.name = #{$!pk.name}
+    </update>
+
     <!--通过主键删除-->
     <delete id="deleteById">
         delete

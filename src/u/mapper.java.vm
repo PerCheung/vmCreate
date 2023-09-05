@@ -92,6 +92,14 @@ public interface $!{tableName} {
         int update($!{tableInfo.name} $!tool.firstLowerCase($!{tableInfo.name}));
 
         /**
+         * 修改全部非null数据
+         *
+         * @param $!tool.firstLowerCase($!{tableInfo.name}) 实例对象
+         * @return 影响行数
+         */
+        int updateAll($!{tableInfo.name} $!tool.firstLowerCase($!{tableInfo.name}));
+
+        /**
          * 通过主键删除数据
          *
          * @param $!pk.name 主键
