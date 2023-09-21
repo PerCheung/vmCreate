@@ -1,0 +1,44 @@
+##设置回调
+$!callback.setFileName($tool.append("CrossOriginInterceptorConfig.java"))
+$!callback.setSavePath($tool.append($tableInfo.savePath, "/config/crossorigin"))
+
+#if($tableInfo.savePackageName)package $!{tableInfo.savePackageName}.#{end}config.crossorigin;
+
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+/**
+ * 跨域拦截器的开启配置类
+ *
+ * @author $!author
+ * @since $!time.currTime()
+ */
+@Slf4j
+@Configuration
+public class CrossOriginInterceptorConfig implements WebMvcConfigurer {
+    /**
+     * 决定是否需要跨域
+     */
+    @Value("${CrossOrigin.enable}")
+    private boolean enableCrossOrigin;
+
+    @Bean
+    public HandlerInterceptor getHandlerCrossOriginInterceptor() {
+        return new CrossOriginInterceptor();
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        if (enableCrossOrigin) {
+            // 跨域拦截器
+            registry.addInterceptor(getHandlerCrossOriginInterceptor())
+                    // 拦截的路径
+                    .addPathPatterns("/api/**");
+        }
+    }
+}

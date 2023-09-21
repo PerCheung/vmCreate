@@ -7,6 +7,9 @@ server:
 swagger:
   enabled: true
 
+CrossOrigin:
+  enable: true
+
 spring:
   # 配置文件上传大小限制
   servlet:

@@ -35,7 +35,7 @@ public class SwaggerConfig {
      * 用于读取配置文件 swagger 属性是否开启
      */
     @Value("${swagger.enabled}")
-    private Boolean swaggerEnabled;
+    private boolean swaggerEnabled;
 
     @Bean
     public Docket docket() {

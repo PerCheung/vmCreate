@@ -27,13 +27,14 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Properties;
 
+import static #if($tableInfo.savePackageName)$!{tableInfo.savePackageName}.#{end}config.constant.Constant.SAVE_FOLDER;
+
 /**
  * 主页控制层
  *
  * @author $!author
  * @since $!time.currTime()
  */
-@CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE, RequestMethod.HEAD})
 @Slf4j
 @RestController
 @RequestMapping("api/index")
@@ -86,7 +87,7 @@ public class IndexController {
         // 分隔符
         String separator = props.getProperty("file.separator");
         // 文件路径
-        String folderPath = rootPath + separator + "file" + separator + id;
+        String folderPath = rootPath + separator + SAVE_FOLDER + separator + id;
         // 文件参数
         UploadFileObject uploadFileObject = new UploadFileObject();
         // 解析文件路径

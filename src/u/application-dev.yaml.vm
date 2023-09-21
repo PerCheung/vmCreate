@@ -24,7 +24,10 @@ sa-token:
   isReadBody: false
 
 swagger:
-  enabled: true
+  enabled: false
+
+CrossOrigin:
+  enable: false
 
 spring:
   # Redis配置

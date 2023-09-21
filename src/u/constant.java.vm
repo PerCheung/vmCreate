@@ -21,4 +21,10 @@ public interface Constant {
      * swagger扫描包
      */
     String SWAGGER_PACKAGE = "#if($tableInfo.savePackageName)$!{tableInfo.savePackageName}.#{end}mvc.controller";
+
+    /**
+     * 文件保存位置
+     */
+    String SAVE_FOLDER = "file";
+
 }

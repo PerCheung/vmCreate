@@ -26,6 +26,8 @@ import java.util.HashMap;
 import java.util.Properties;
 import java.util.UUID;
 
+import static #if($tableInfo.savePackageName)$!{tableInfo.savePackageName}.#{end}config.constant.Constant.SAVE_FOLDER;
+
 /**
  * 主页服务实现类
  *
@@ -120,7 +122,7 @@ public class IndexServiceImpl implements IndexService {
         String separator = props.getProperty("file.separator");
 
         // 检查文件夹是否存在，如果不存在则创建
-        String folderPath = rootPath + separator + "file";
+        String folderPath = rootPath + separator + SAVE_FOLDER;
         File folder = new File(folderPath);
         if (!folder.exists()) {
             folder.mkdir();
