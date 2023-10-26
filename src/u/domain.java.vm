@@ -2,9 +2,9 @@
 $!{define.vm}
 
 ##使用宏定义设置回调（保存位置与文件后缀）
-#save("/mvc/domain", ".java")
+#save("/domain", ".java")
 
-#if($tableInfo.savePackageName)package $!{tableInfo.savePackageName}.#{end}mvc.domain;
+#if($tableInfo.savePackageName)package $!{tableInfo.savePackageName}.#{end}domain;
 
 import lombok.extern.slf4j.Slf4j;
 import io.swagger.annotations.ApiModel;

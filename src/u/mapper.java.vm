@@ -2,16 +2,16 @@
 #set($tableName = $tool.append($tableInfo.name, "Mapper"))
 ##设置回调
 $!callback.setFileName($tool.append($tableName, ".java"))
-$!callback.setSavePath($tool.append($tableInfo.savePath, "/mvc/mapper"))
+$!callback.setSavePath($tool.append($tableInfo.savePath, "/mapper"))
 
 ##拿到主键
 #if(!$tableInfo.pkColumn.isEmpty())
     #set($pk = $tableInfo.pkColumn.get(0))
 #end
 
-#if($tableInfo.savePackageName)package $!{tableInfo.savePackageName}.#{end}mvc.mapper;
+#if($tableInfo.savePackageName)package $!{tableInfo.savePackageName}.#{end}mapper;
 
-import $!{tableInfo.savePackageName}.mvc.domain.$!{tableInfo.name};
+import $!{tableInfo.savePackageName}.domain.$!{tableInfo.name};
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

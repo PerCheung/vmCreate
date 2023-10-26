@@ -2,20 +2,20 @@
 #set($tableName = $tool.append($tableInfo.name, "ServiceImpl"))
 ##设置回调
 $!callback.setFileName($tool.append($tableName, ".java"))
-$!callback.setSavePath($tool.append($tableInfo.savePath, "/mvc/service/impl"))
+$!callback.setSavePath($tool.append($tableInfo.savePath, "/service/impl"))
 
 ##拿到主键
 #if(!$tableInfo.pkColumn.isEmpty())
     #set($pk = $tableInfo.pkColumn.get(0))
 #end
 
-#if($tableInfo.savePackageName)package $!{tableInfo.savePackageName}.#{end}mvc.service.impl;
+#if($tableInfo.savePackageName)package $!{tableInfo.savePackageName}.#{end}service.impl;
 
 import com.github.pagehelper.PageHelper;
 import lombok.extern.slf4j.Slf4j;
-import $!{tableInfo.savePackageName}.mvc.domain.$!{tableInfo.name};
-import $!{tableInfo.savePackageName}.mvc.mapper.$!{tableInfo.name}Mapper;
-import $!{tableInfo.savePackageName}.mvc.service.$!{tableInfo.name}Service;
+import $!{tableInfo.savePackageName}.domain.$!{tableInfo.name};
+import $!{tableInfo.savePackageName}.mapper.$!{tableInfo.name}Mapper;
+import $!{tableInfo.savePackageName}.service.$!{tableInfo.name}Service;
 import $!{tableInfo.savePackageName}.util.R;
 import org.springframework.stereotype.Service;
 

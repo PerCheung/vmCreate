@@ -1,12 +1,12 @@
 ##设置回调
 $!callback.setFileName($tool.append("IndexServiceImpl.java"))
-$!callback.setSavePath($tool.append($tableInfo.savePath, "/mvc/service/impl"))
+$!callback.setSavePath($tool.append($tableInfo.savePath, "/service/impl"))
 
-#if($tableInfo.savePackageName)package $!{tableInfo.savePackageName}.#{end}mvc.service.impl;
+#if($tableInfo.savePackageName)package $!{tableInfo.savePackageName}.#{end}service.impl;
 
 import $!{tableInfo.savePackageName}.config.exception.AllExceptionHandle;
-import $!{tableInfo.savePackageName}.mvc.domain.UploadFileObject;
-import $!{tableInfo.savePackageName}.mvc.service.IndexService;
+import $!{tableInfo.savePackageName}.domain.UploadFileObject;
+import $!{tableInfo.savePackageName}.service.IndexService;
 import $!{tableInfo.savePackageName}.util.R;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

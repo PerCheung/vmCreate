@@ -2,16 +2,16 @@
 #set($tableName = $tool.append($tableInfo.name, "Service"))
 ##设置回调
 $!callback.setFileName($tool.append($tableName, ".java"))
-$!callback.setSavePath($tool.append($tableInfo.savePath, "/mvc/service"))
+$!callback.setSavePath($tool.append($tableInfo.savePath, "/service"))
 
 ##拿到主键
 #if(!$tableInfo.pkColumn.isEmpty())
     #set($pk = $tableInfo.pkColumn.get(0))
 #end
 
-#if($tableInfo.savePackageName)package $!{tableInfo.savePackageName}.#{end}mvc.service;
+#if($tableInfo.savePackageName)package $!{tableInfo.savePackageName}.#{end}service;
 
-import $!{tableInfo.savePackageName}.mvc.domain.$!{tableInfo.name};
+import $!{tableInfo.savePackageName}.domain.$!{tableInfo.name};
 import $!{tableInfo.savePackageName}.util.R;
 
 /**

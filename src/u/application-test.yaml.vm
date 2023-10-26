@@ -31,7 +31,7 @@ spring:
     # allowMultiQueries 是否允许执行多行sql
     # connectTimeout 和数据库服务器建立socket连接时的超时，单位：毫秒，0表示永不超时
     # socketTimeout 操作（读写）超时，单位：毫秒，0表示永不超时
-    url: jdbc:mysql://127.0.0.1:3306/database?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&allowMultiQueries=true&connectTimeout=60000&socketTimeout=60000
+    url: jdbc:mysql://localhost:3306/database?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&allowMultiQueries=true&connectTimeout=60000&socketTimeout=60000
     # 下面为连接池的补充设置，应用到上面所有数据源中
     hikari:
       # 自动提交事务

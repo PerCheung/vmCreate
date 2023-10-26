@@ -2,19 +2,19 @@
 #set($tableName = $tool.append($tableInfo.name, "Controller"))
 ##设置回调
 $!callback.setFileName($tool.append($tableName, ".java"))
-$!callback.setSavePath($tool.append($tableInfo.savePath, "/mvc/controller"))
+$!callback.setSavePath($tool.append($tableInfo.savePath, "/controller"))
 ##拿到主键
 #if(!$tableInfo.pkColumn.isEmpty())
     #set($pk = $tableInfo.pkColumn.get(0))
 #end
 
-#if($tableInfo.savePackageName)package $!{tableInfo.savePackageName}.#{end}mvc.controller;
+#if($tableInfo.savePackageName)package $!{tableInfo.savePackageName}.#{end}controller;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
-import $!{tableInfo.savePackageName}.mvc.domain.$!{tableInfo.name};
-import $!{tableInfo.savePackageName}.mvc.service.$!{tableInfo.name}Service;
+import $!{tableInfo.savePackageName}.domain.$!{tableInfo.name};
+import $!{tableInfo.savePackageName}.service.$!{tableInfo.name}Service;
 import $!{tableInfo.savePackageName}.util.R;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

@@ -1,12 +1,12 @@
 ##设置回调
 $!callback.setFileName($tool.append("IndexController.java"))
-$!callback.setSavePath($tool.append($tableInfo.savePath, "/mvc/controller"))
+$!callback.setSavePath($tool.append($tableInfo.savePath, "/controller"))
 
-#if($tableInfo.savePackageName)package $!{tableInfo.savePackageName}.#{end}mvc.controller;
+#if($tableInfo.savePackageName)package $!{tableInfo.savePackageName}.#{end}controller;
 
 import $!{tableInfo.savePackageName}.config.exception.AllExceptionHandle;
-import $!{tableInfo.savePackageName}.mvc.domain.UploadFileObject;
-import $!{tableInfo.savePackageName}.mvc.service.IndexService;
+import $!{tableInfo.savePackageName}.domain.UploadFileObject;
+import $!{tableInfo.savePackageName}.service.IndexService;
 import $!{tableInfo.savePackageName}.util.R;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import io.swagger.annotations.Api;

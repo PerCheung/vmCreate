@@ -2,9 +2,9 @@
 #set($tableName = $tool.append($tableInfo.name, "Service"))
 ##设置回调
 $!callback.setFileName($tool.append("IndexService.java"))
-$!callback.setSavePath($tool.append($tableInfo.savePath, "/mvc/service"))
+$!callback.setSavePath($tool.append($tableInfo.savePath, "/service"))
 
-#if($tableInfo.savePackageName)package $!{tableInfo.savePackageName}.#{end}mvc.service;
+#if($tableInfo.savePackageName)package $!{tableInfo.savePackageName}.#{end}service;
 
 import $!{tableInfo.savePackageName}.util.R;
 import com.fasterxml.jackson.core.JsonProcessingException;
