@@ -1,0 +1,10 @@
+##设置回调
+$!callback.setFileName($tool.append("banner.txt"))
+$!callback.setSavePath($tool.append($modulePath, "/src/main/resources"))${AnsiStyle.BOLD}${AnsiColor.BRIGHT_RED} ______             ______ _
+${AnsiColor.BRIGHT_RED}(_____ \           / _____) |
+${AnsiColor.BRIGHT_YELLOW} _____) )___  ____| /     | | _   ____ _   _ ____   ____
+${AnsiColor.BRIGHT_GREEN}|  ____/ _  )/ ___) |     | || \ / _  ) | | |  _ \ / _  |
+${AnsiColor.BRIGHT_CYAN}| |   ( (/ /| |   | \_____| | | ( (/ /| |_| | | | ( ( | |
+${AnsiColor.BRIGHT_MAGENTA}|_|    \____)_|    \______)_| |_|\____)\____|_| |_|\_|| |
+${AnsiColor.BRIGHT_MAGENTA}                                                  (_____|
+SPRING BOOT VERSION: ${spring-boot.version}${AnsiStyle.NORMAL}
