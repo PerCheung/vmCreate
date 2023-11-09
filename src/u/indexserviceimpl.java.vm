@@ -6,19 +6,26 @@ $!callback.setSavePath($tool.append($tableInfo.savePath, "/service/impl"))
 
 import $!{tableInfo.savePackageName}.config.exception.AllExceptionHandle;
 import $!{tableInfo.savePackageName}.domain.UploadFileObject;
+import $!{tableInfo.savePackageName}.mapper.UploadFileObjectMapper;
 import $!{tableInfo.savePackageName}.service.IndexService;
 import $!{tableInfo.savePackageName}.util.R;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.ContentDisposition;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import java.io.File;
-import java.io.IOException;
 import java.lang.management.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
@@ -44,6 +51,8 @@ public class IndexServiceImpl implements IndexService {
     private ObjectMapper objectMapper;
     @Resource
     private AllExceptionHandle allExceptionHandle;
+    @Resource
+    private UploadFileObjectMapper uploadFileObjectMapper;
 
     /**
      * 监控内存
@@ -154,11 +163,55 @@ public class IndexServiceImpl implements IndexService {
         String fileOriginalPath = filePath + separator + uploadFileObject.getOriginalFilename();
         try {
             file.transferTo(new File(fileOriginalPath));
+            uploadFileObjectMapper.insert(uploadFileObject);
             return R.ok().data(uploadFileObject);
         } catch (Exception e) {
             log.error("上传文件报错");
             allExceptionHandle.e(e);
             return R.exp().data("上传失败");
+        }
+    }
+
+    /**
+     * 下载文件
+     *
+     * @param id 文件唯一ID
+     * @return 文件
+     */
+    @Override
+    public ResponseEntity<org.springframework.core.io.Resource> download(String id) {
+        Properties props = System.getProperties();
+        // 根路径
+        String rootPath = props.getProperty("user.dir");
+        // 分隔符
+        String separator = props.getProperty("file.separator");
+        // 文件路径
+        String folderPath = rootPath + separator + SAVE_FOLDER + separator + id;
+        // 文件参数
+        UploadFileObject uploadFileObject = uploadFileObjectMapper.queryById(id);
+        // 解析文件路径
+        Path filePath = Paths.get(folderPath).resolve(uploadFileObject.getOriginalFilename()).normalize();
+        try {
+            // 加载文件资源
+            org.springframework.core.io.Resource resource = new UrlResource(filePath.toUri());
+
+            if (resource.exists()) {
+                // 设置响应头
+                HttpHeaders headers = new HttpHeaders();
+                ContentDisposition contentDisposition = ContentDisposition.builder("attachment").filename(uploadFileObject.getOriginalFilename(), StandardCharsets.UTF_8).build();
+                headers.setContentDisposition(contentDisposition);
+                headers.add(HttpHeaders.CONTENT_TYPE, uploadFileObject.getContentType());
+                headers.setContentLength(uploadFileObject.getSize());
+                // 返回文件内容
+                return ResponseEntity.ok().headers(headers).body(resource);
+            } else {
+                // 文件不存在时返回 404 错误
+                return ResponseEntity.notFound().build();
+            }
+        } catch (Exception e) {
+            log.error("下载文件报错");
+            allExceptionHandle.e(e);
+            return ResponseEntity.internalServerError().build();
         }
     }
 }

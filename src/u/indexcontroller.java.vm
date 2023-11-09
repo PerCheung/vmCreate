@@ -5,7 +5,6 @@ $!callback.setSavePath($tool.append($tableInfo.savePath, "/controller"))
 #if($tableInfo.savePackageName)package $!{tableInfo.savePackageName}.#{end}controller;
 
 import $!{tableInfo.savePackageName}.config.exception.AllExceptionHandle;
-import $!{tableInfo.savePackageName}.domain.UploadFileObject;
 import $!{tableInfo.savePackageName}.service.IndexService;
 import $!{tableInfo.savePackageName}.util.R;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -81,39 +80,6 @@ public class IndexController {
     @ApiOperation("下载文件")
     @GetMapping("download/{id}")
     public ResponseEntity<org.springframework.core.io.Resource> downloadFile(@ApiParam(value = "文件唯一ID") @NotNull(message = "文件唯一ID不允许为空") @PathVariable("id") String id) {
-        Properties props = System.getProperties();
-        // 根路径
-        String rootPath = props.getProperty("user.dir");
-        // 分隔符
-        String separator = props.getProperty("file.separator");
-        // 文件路径
-        String folderPath = rootPath + separator + SAVE_FOLDER + separator + id;
-        // 文件参数
-        UploadFileObject uploadFileObject = new UploadFileObject();
-        // 解析文件路径
-        Path filePath = Paths.get(folderPath).resolve(uploadFileObject.getOriginalFilename()).normalize();
-        try {
-            // 加载文件资源
-            org.springframework.core.io.Resource resource = new UrlResource(filePath.toUri());
-
-            if (resource.exists()) {
-                // 设置响应头
-                HttpHeaders headers = new HttpHeaders();
-                ContentDisposition contentDisposition = ContentDisposition.builder("attachment").filename(uploadFileObject.getOriginalFilename(), StandardCharsets.UTF_8).build();
-                headers.setContentDisposition(contentDisposition);
-                headers.add(HttpHeaders.CONTENT_TYPE, uploadFileObject.getContentType());
-                headers.setContentLength(uploadFileObject.getSize());
-
-                // 返回文件内容
-                return ResponseEntity.ok().headers(headers).body(resource);
-            } else {
-                // 文件不存在时返回 404 错误
-                return ResponseEntity.notFound().build();
-            }
-        } catch (Exception e) {
-            log.error("下载文件报错");
-            allExceptionHandle.e(e);
-            return ResponseEntity.internalServerError().build();
-        }
+        return this.indexService.download(id);
     }
 }
