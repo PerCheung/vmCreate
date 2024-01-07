@@ -1,0 +1,89 @@
+##定义初始变量
+#set($tableName = $tool.append($tableInfo.name, "Service"))
+##设置回调
+$!callback.setFileName($tool.append($tableName, ".java"))
+$!callback.setSavePath($tool.append($tableInfo.savePath, "/service"))
+
+##拿到主键
+#if(!$tableInfo.pkColumn.isEmpty())
+    #set($pk = $tableInfo.pkColumn.get(0))
+#end
+
+#if($tableInfo.savePackageName)package $!{tableInfo.savePackageName}.#{end}service;
+
+import $!{tableInfo.savePackageName}.domain.$!{tableInfo.name};
+import $!{tableInfo.savePackageName}.util.R;
+
+/**
+ * $!{tableInfo.comment}($!{tableInfo.name})表服务接口
+ *
+ * @author $!author
+ * @since $!time.currTime()
+ */
+public interface $!{tableName} {
+
+        /**
+         * 通过ID查询单条数据
+         *
+         * @param $!pk.name 主键
+         * @return 实例对象
+         */
+        R queryById($!pk.shortType $!pk.name);
+
+        /**
+         * 全查询
+         *
+         * @param $!tool.firstLowerCase($!{tableInfo.name}) 筛选条件
+         * @return 查询结果
+         */
+        R queryAll($!{tableInfo.name} $!tool.firstLowerCase($!{tableInfo.name}));
+
+        /**
+         * 模糊全查询
+         *
+         * @param $!tool.firstLowerCase($!{tableInfo.name}) 筛选条件
+         * @return 查询结果
+         */
+        R queryAllLike($!{tableInfo.name} $!tool.firstLowerCase($!{tableInfo.name}));
+
+        /**
+         * 分页查询
+         *
+         * @param $!{tool.firstLowerCase($tableInfo.name)} 筛选条件
+         * @return 查询结果
+         */
+        R page($!{tableInfo.name} $!tool.firstLowerCase($!{tableInfo.name}));
+
+        /**
+         * 分页模糊查询
+         *
+         * @param $!{tool.firstLowerCase($tableInfo.name)} 筛选条件
+         * @return 查询结果
+         */
+        R pageLike($!{tableInfo.name} $!tool.firstLowerCase($!{tableInfo.name}));
+
+        /**
+         * 新增数据
+         *
+         * @param $!tool.firstLowerCase($!{tableInfo.name}) 实例对象
+         * @return 实例对象
+         */
+        R insert($!{tableInfo.name} $!tool.firstLowerCase($!{tableInfo.name}));
+
+        /**
+         * 修改数据
+         *
+         * @param $!tool.firstLowerCase($!{tableInfo.name}) 实例对象
+         * @return 实例对象
+         */
+        R update($!{tableInfo.name} $!tool.firstLowerCase($!{tableInfo.name}));
+
+        /**
+         * 通过主键删除数据
+         *
+         * @param $!pk.name 主键
+         * @return 是否成功
+         */
+        R deleteById($!pk.shortType $!pk.name);
+
+        }

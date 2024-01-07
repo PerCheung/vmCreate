@@ -1,0 +1,26 @@
+{
+  "author" : "Peter Cheung",
+  "version" : "1.2.8",
+  "userSecure" : "",
+  "currTypeMapperGroupName" : "Default",
+  "currTemplateGroupName" : "mybatis-mvc",
+  "currColumnConfigGroupName" : "Default",
+  "currGlobalConfigGroupName" : "Default",
+  "typeMapper" : { },
+  "template" : { },
+  "columnConfig" : {
+    "Default" : {
+      "name" : "Default",
+      "elementList" : [ {
+        "title" : "disable",
+        "type" : "BOOLEAN",
+        "selectValue" : ""
+      }, {
+        "title" : "support",
+        "type" : "SELECT",
+        "selectValue" : "add,edit,query,del,ui"
+      } ]
+    }
+  },
+  "globalConfig" : { }
+}

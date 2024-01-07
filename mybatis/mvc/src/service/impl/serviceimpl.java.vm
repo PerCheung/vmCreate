@@ -1,0 +1,126 @@
+##定义初始变量
+#set($tableName = $tool.append($tableInfo.name, "ServiceImpl"))
+##设置回调
+$!callback.setFileName($tool.append($tableName, ".java"))
+$!callback.setSavePath($tool.append($tableInfo.savePath, "/service/impl"))
+
+##拿到主键
+#if(!$tableInfo.pkColumn.isEmpty())
+    #set($pk = $tableInfo.pkColumn.get(0))
+#end
+
+#if($tableInfo.savePackageName)package $!{tableInfo.savePackageName}.#{end}service.impl;
+
+import com.github.pagehelper.PageHelper;
+import lombok.extern.slf4j.Slf4j;
+import $!{tableInfo.savePackageName}.domain.$!{tableInfo.name};
+import $!{tableInfo.savePackageName}.mapper.$!{tableInfo.name}Mapper;
+import $!{tableInfo.savePackageName}.service.$!{tableInfo.name}Service;
+import $!{tableInfo.savePackageName}.util.R;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+
+/**
+ * $!{tableInfo.comment}($!{tableInfo.name})表服务实现类
+ *
+ * @author $!author
+ * @since $!time.currTime()
+ */
+@Slf4j
+@Service
+public class $!{tableName} implements $!{tableInfo.name}Service {
+@Resource
+private $!{tableInfo.name}Mapper $!tool.firstLowerCase($!{tableInfo.name})Mapper;
+
+/**
+ * 通过ID查询单条数据
+ *
+ * @param $!pk.name 主键
+ * @return 实例对象
+ */
+@Override
+public R queryById($!pk.shortType $!pk.name) {
+        return R.ok().data(this.$!{tool.firstLowerCase($!{tableInfo.name})}Mapper.queryById($!pk.name));
+        }
+
+/**
+ * 全查询
+ *
+ * @param $!{tool.firstLowerCase($tableInfo.name)} 筛选条件
+ * @return 查询结果
+ */
+@Override
+public R queryAll($!{tableInfo.name} $!{tool.firstLowerCase($tableInfo.name)}) {
+        return R.ok().data(this.$!{tool.firstLowerCase($tableInfo.name)}Mapper.queryAll($!{tool.firstLowerCase($tableInfo.name)}));
+        }
+
+/**
+ * 模糊全查询
+ *
+ * @param $!{tool.firstLowerCase($tableInfo.name)} 筛选条件
+ * @return 查询结果
+ */
+@Override
+public R queryAllLike($!{tableInfo.name} $!{tool.firstLowerCase($tableInfo.name)}) {
+        return R.ok().data(this.$!{tool.firstLowerCase($tableInfo.name)}Mapper.queryAllLike($!{tool.firstLowerCase($tableInfo.name)}));
+        }
+
+/**
+ * 分页查询
+ *
+ * @param $!{tool.firstLowerCase($tableInfo.name)} 筛选条件
+ * @return 查询结果
+ */
+@Override
+public R page($!{tableInfo.name} $!{tool.firstLowerCase($tableInfo.name)}) {
+        return R.ok().data(PageHelper.startPage($!{tool.firstLowerCase($tableInfo.name)}.getPageNum(), $!{tool.firstLowerCase($tableInfo.name)}.getPageSize()).doSelectPageInfo(() -> this.$!{tool.firstLowerCase($tableInfo.name)}Mapper.queryAll($!{tool.firstLowerCase($tableInfo.name)})));
+        }
+
+/**
+ * 分页模糊查询
+ *
+ * @param $!{tool.firstLowerCase($tableInfo.name)} 筛选条件
+ * @return 查询结果
+ */
+@Override
+public R pageLike($!{tableInfo.name} $!{tool.firstLowerCase($tableInfo.name)}) {
+        return R.ok().data(PageHelper.startPage($!{tool.firstLowerCase($tableInfo.name)}.getPageNum(), $!{tool.firstLowerCase($tableInfo.name)}.getPageSize()).doSelectPageInfo(() -> this.$!{tool.firstLowerCase($tableInfo.name)}Mapper.queryAllLike($!{tool.firstLowerCase($tableInfo.name)})));
+        }
+
+/**
+ * 新增数据
+ *
+ * @param $!tool.firstLowerCase($!{tableInfo.name}) 实例对象
+ * @return 实例对象
+ */
+@Override
+public R insert($!{tableInfo.name} $!tool.firstLowerCase($!{tableInfo.name})) {
+        this.$!{tool.firstLowerCase($!{tableInfo.name})}Mapper.insert($!tool.firstLowerCase($!{tableInfo.name}));
+        return R.ok().data($!tool.firstLowerCase($!{tableInfo.name}));
+        }
+
+/**
+ * 修改数据
+ *
+ * @param $!tool.firstLowerCase($!{tableInfo.name}) 实例对象
+ * @return 实例对象
+ */
+@Override
+public R update($!{tableInfo.name} $!tool.firstLowerCase($!{tableInfo.name})) {
+        this.$!{tool.firstLowerCase($!{tableInfo.name})}Mapper.updateAll($!tool.firstLowerCase($!{tableInfo.name}));
+        return R.ok().data(this.$!{tool.firstLowerCase($!{tableInfo.name})}Mapper.queryById($!{tool.firstLowerCase($!{tableInfo.name})}.get$!tool.firstUpperCase($pk.name)()));
+        }
+
+/**
+ * 通过主键删除数据
+ *
+ * @param $!pk.name 主键
+ * @return 是否成功
+ */
+@Override
+public R deleteById($!pk.shortType $!pk.name) {
+        boolean del = this.$!{tool.firstLowerCase($!{tableInfo.name})}Mapper.deleteById($!pk.name) > 0;
+        return R.ok().data(del);
+        }
+        }

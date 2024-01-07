@@ -1,0 +1,223 @@
+##设置回调
+$!callback.setFileName($tool.append("UtilServiceImpl.java"))
+$!callback.setSavePath($tool.append($tableInfo.savePath, "/service/impl"))
+
+#if($tableInfo.savePackageName)package $!{tableInfo.savePackageName}.#{end}service.impl;
+
+import $!{tableInfo.savePackageName}.config.exception.AllExceptionHandle;
+import $!{tableInfo.savePackageName}.domain.UploadFileObject;
+import $!{tableInfo.savePackageName}.mapper.UploadFileObjectMapper;
+import $!{tableInfo.savePackageName}.service.UtilService;
+import $!{tableInfo.savePackageName}.util.R;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.ContentDisposition;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.util.DigestUtils;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.annotation.Resource;
+import java.io.File;
+import java.lang.management.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Properties;
+import java.util.UUID;
+
+import static #if($tableInfo.savePackageName)$!{tableInfo.savePackageName}.#{end}config.constant.Constant.SAVE_FOLDER;
+
+/**
+ * 主页服务实现类
+ *
+ * @author $!author
+ * @since $!time.currTime()
+ */
+@Slf4j
+@Service
+public class UtilServiceImpl implements UtilService {
+    /**
+     * Jackson核心类
+     */
+    @Resource
+    private ObjectMapper objectMapper;
+    @Resource
+    private AllExceptionHandle allExceptionHandle;
+    @Resource
+    private UploadFileObjectMapper uploadFileObjectMapper;
+
+    /**
+     * 监控内存
+     *
+     * @return 运行环境信息
+     */
+    @Override
+    public R monitor() throws JsonProcessingException {
+        OperatingSystemMXBean operatingSystemMXBean = ManagementFactory.getOperatingSystemMXBean();
+        String osName = System.getProperty("os.name");
+        String osArch = System.getProperty("os.arch");
+        long memorySize = Runtime.getRuntime().totalMemory();
+        long freeMemorySize = Runtime.getRuntime().freeMemory();
+        long maxMemory = Runtime.getRuntime().maxMemory();
+        MemoryMXBean memoryMXBean = ManagementFactory.getMemoryMXBean();
+        MemoryUsage heapMemoryUsage = memoryMXBean.getHeapMemoryUsage();
+        MemoryUsage nonHeapMemoryUsage = memoryMXBean.getNonHeapMemoryUsage();
+        ThreadMXBean threadMXBean = ManagementFactory.getThreadMXBean();
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("当前时间", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy年MM月dd日 H点m分s秒")));
+        map.put("计算机系统信息", osName + " " + osArch);
+        map.put("计算机系统版本", operatingSystemMXBean.getVersion());
+        map.put("计算机CPU核数", operatingSystemMXBean.getAvailableProcessors());
+        map.put("Java虚拟机最初向操作系统请求用于堆内存管理的内存量", heapMemoryUsage.getInit() / 1024 / 1024 + "MB");
+        map.put("Java虚拟机已用堆内存量", heapMemoryUsage.getUsed() / 1024 / 1024 + "MB");
+        map.put("Java虚拟机中返回当前活动线程数，包括守护线程和非守护线程", threadMXBean.getThreadCount());
+        map.put("不设置情况下Java虚拟机将获取的内存总量", memorySize / 1024 / 1024 + "MB");
+        map.put("不设置情况下Java虚拟机将获取的可用内存量", freeMemorySize / 1024 / 1024 + "MB");
+        map.put("不设置情况下Java虚拟机将尝试使用的最大内存量", maxMemory / 1024 / 1024 + "MB");
+        map.put("Java虚拟机最初向操作系统请求用于非堆内存大小", nonHeapMemoryUsage.getInit() / 1024 / 1024 + "MB");
+        map.put("Java虚拟机已用非堆内存大小", nonHeapMemoryUsage.getUsed() / 1024 / 1024 + "MB");
+        HashMap<Object, Object> sysMap = new HashMap<>();
+        System.getProperties().forEach((key, value) -> sysMap.put(key, value));
+        map.put("系统属性", sysMap);
+        // map转json
+        String json = objectMapper.writeValueAsString(map);
+        log.info(json);
+        return R.ok().data(map);
+    }
+
+    /**
+     * 加盐MD5加密
+     *
+     * @param str  原始字符串
+     * @param salt 盐值
+     * @return 最终生成字符串
+     */
+    @Override
+    public String toMD5(String str, String salt) {
+        String base = str + salt;
+        return DigestUtils.md5DigestAsHex(base.getBytes());
+    }
+
+    /**
+     * 制造simple-uuid
+     *
+     * @return simple-uuid
+     */
+    @Override
+    public String simpleUUID() {
+        return UUID.randomUUID().toString().replaceAll("-", "");
+    }
+
+    /**
+     * 上传文件
+     *
+     * @param file 上传的文件
+     * @return 上传结果
+     */
+    @Override
+    public R upload(MultipartFile file) {
+        Properties props = System.getProperties();
+        // 根路径
+        String rootPath = props.getProperty("user.dir");
+        // 分隔符
+        String separator = props.getProperty("file.separator");
+
+        // 检查文件夹是否存在，如果不存在则创建
+        String folderPath = rootPath + separator + SAVE_FOLDER;
+        File folder = new File(folderPath);
+        if (!folder.exists()) {
+            folder.mkdir();
+        }
+
+        // 检查上传文件是否为空文件
+        if (file.isEmpty()) {
+            return R.badRequest().data("文件为空");
+        }
+
+        // 文件实体类
+        UploadFileObject uploadFileObject = new UploadFileObject();
+        // 文件唯一ID
+        uploadFileObject.setId(simpleUUID());
+        // 文件的原始文件名
+        uploadFileObject.setName(file.getOriginalFilename());
+        // 上传文件的内容类型
+        uploadFileObject.setContentType(file.getContentType());
+        // 返回上传文件的大小（以字节为单位）
+        uploadFileObject.setSize(file.getSize());
+        // 创建时间
+        uploadFileObject.setCreateTime(new Date());
+
+        // 创建保存文件的文件夹
+        String filePath = folderPath + separator + uploadFileObject.getId();
+        new File(filePath).mkdir();
+
+        // 保存文件
+        String fileOriginalPath = filePath + separator + uploadFileObject.getName();
+        try {
+            file.transferTo(new File(fileOriginalPath));
+            uploadFileObjectMapper.insert(uploadFileObject);
+            return R.ok().data(uploadFileObject);
+        } catch (Exception e) {
+            log.error("上传文件报错");
+            allExceptionHandle.e(e);
+            return R.exp().data("上传失败");
+        }
+    }
+
+    /**
+     * 下载文件
+     *
+     * @param id 文件唯一ID
+     * @return 文件
+     */
+    @Override
+    public ResponseEntity<org.springframework.core.io.Resource> download(String id) {
+        // 文件参数
+        UploadFileObject uploadFileObject = uploadFileObjectMapper.queryById(id);
+        if (uploadFileObject == null) {
+            log.error("id为" + id + "的文件在文件表中不存在");
+            // 文件不存在时返回 404 错误
+            return ResponseEntity.notFound().build();
+        }
+        Properties props = System.getProperties();
+        // 根路径
+        String rootPath = props.getProperty("user.dir");
+        // 分隔符
+        String separator = props.getProperty("file.separator");
+        // 文件路径
+        String folderPath = rootPath + separator + SAVE_FOLDER + separator + id;
+        // 解析文件路径
+        Path filePath = Paths.get(folderPath).resolve(uploadFileObject.getName()).normalize();
+        try {
+            // 加载文件资源
+            org.springframework.core.io.Resource resource = new UrlResource(filePath.toUri());
+
+            if (resource.exists()) {
+                // 设置响应头
+                HttpHeaders headers = new HttpHeaders();
+                ContentDisposition contentDisposition = ContentDisposition.builder("attachment").filename(uploadFileObject.getName(), StandardCharsets.UTF_8).build();
+                headers.setContentDisposition(contentDisposition);
+                headers.add(HttpHeaders.CONTENT_TYPE, uploadFileObject.getContentType());
+                headers.setContentLength(uploadFileObject.getSize());
+                // 返回文件内容
+                return ResponseEntity.ok().headers(headers).body(resource);
+            } else {
+                log.error("id为" + id + "的文件在文件表中存在，但是实际不存在");
+                // 文件不存在时返回 404 错误
+                return ResponseEntity.notFound().build();
+            }
+        } catch (Exception e) {
+            log.error("下载文件报错");
+            allExceptionHandle.e(e);
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+}

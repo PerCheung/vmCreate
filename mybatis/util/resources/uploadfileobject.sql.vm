@@ -1,0 +1,12 @@
+##设置回调
+$!callback.setFileName($tool.append("uploadfileobject.sql"))
+$!callback.setSavePath($tool.append($modulePath, "/src/main/resources/sql"))
+CREATE TABLE upload_file_object
+(
+    id           CHAR(32) comment '文件唯一ID',
+    name         VARCHAR(255) comment '原始文件名',
+    content_type VARCHAR(255) comment '文件的内容类型',
+    size         BIGINT comment '文件的大小（以字节为单位）',
+    create_time  DATETIME default now() comment '文件的创建时间',
+    PRIMARY KEY (id)
+) comment '上传文件';
